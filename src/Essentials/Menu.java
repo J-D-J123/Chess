@@ -23,6 +23,7 @@ public class Menu {
 
     // fram height and width - changed to 720p bc it is a nice 16:9 ratio :)
     // why change the ratio? - what about moble users? lol 
+    // moblie users arent even a real thing lets be honest
     private final int WIDTH = 1280;
     private final int HEIGHT = 720;
 
