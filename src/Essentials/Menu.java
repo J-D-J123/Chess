@@ -3,7 +3,7 @@ package Essentials;
 import javax.swing.*;
 
 /**
- * Authors:         Joey J
+ * Authors:         Joseph J
  * Last Updated:    1/27/2024
  * 
  * Description:     The Menu has options for the user to choose from.

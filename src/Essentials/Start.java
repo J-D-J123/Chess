@@ -1,7 +1,7 @@
 package Essentials;
 
 /**
- * Authors:         Joey J
+ * Authors:         Joseph J
  * Last Updated:    1/27/2024
  * 
  * Description:     The Main class is the class that will run the program. 
