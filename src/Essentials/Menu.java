@@ -3,8 +3,8 @@ package Essentials;
 import javax.swing.*;
 
 /**
- * @authors:        Joseph J
- * Last Updated:    1/27/2024
+ * @authors:        Joseph J, Braden S
+ * Last Updated:    1/28/2024
  * 
  * Description:     The Menu has options for the user to choose from.
  *                  This calls the Board class and then the Player class which 
@@ -19,11 +19,14 @@ public class Menu {
     // 2 = minor update
     // 1 = patch update (fixing errors)
 
-    private final String version = "1.0.3"; 
+    private final String version = "1.1.3"; // braden did this
 
-    // fram height and width 
-    private final int WIDTH = 300; 
-    private final int HEIGHT = 300;
+    // fram height and width - changed to 720p bc it is a nice 16:9 ratio :)
+    private final int WIDTH = 1280;
+    private final int HEIGHT = 720;
+
+    private JPanel mainMenuPanel;
+    private JPanel gamePanel;
     
     public Menu() {
         makeMenu(); 
@@ -35,20 +38,15 @@ public class Menu {
         JFrame frame        = new JFrame("Chess " + version);
         JMenuBar menuBar    = new JMenuBar();
 
-        JMenu signIn        = new JMenu("Sign In"); // Corrected this line
-        JMenu signUp        = new JMenu("Sign Up");
-        JMenu playRemotely  = new JMenu("Connect");
+        // changed the menu bar to just have exit buttons becuaes of my main menu thing
+        JMenu system        = new JMenu("System"); // Corrected this line
 
-        // login.add(new JMenuItem("Login"));
-        // login.add(new JMenuItem("Sign In"));
-        signIn.add(new JMenuItem("signUp"));
-        signIn.add(new JMenuItem("signIn"));
-        playRemotely.add(new JMenuItem("Server Connection"));
+        system.add(new JMenuItem("Back to main menu"));
+        system.add(new JMenuItem("Credits"));
+        system.add(new JMenuItem("Exit"));
 
         // add menu item to menuBar
-        menuBar.add(signIn);
-        //menuBar.add(signIn);
-        menuBar.add(playRemotely);
+        menuBar.add(system);
 
         // add the menu to the frame
         frame.setJMenuBar(menuBar);
