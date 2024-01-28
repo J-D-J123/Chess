@@ -1,7 +1,7 @@
 package Essentials;
 
 /**
- * Authors:         Joey J
+ * @authors         Joey J
  * Last Updated:    1/27/2024
  * 
  * Description:     The Board is supposted to generate a chess Board 

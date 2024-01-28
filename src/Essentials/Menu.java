@@ -3,7 +3,7 @@ package Essentials;
 import javax.swing.*;
 
 /**
- * Authors:         Joseph J
+ * @authors:        Joseph J
  * Last Updated:    1/27/2024
  * 
  * Description:     The Menu has options for the user to choose from.
@@ -19,7 +19,7 @@ public class Menu {
     // 2 = minor update
     // 1 = patch update (fixing errors)
 
-    private final double version = 1.0; 
+    private final String version = "1.0.3"; 
 
     // fram height and width 
     private final int WIDTH = 300; 
@@ -31,18 +31,46 @@ public class Menu {
 
     public void makeMenu() {
 
-        // Version v 
-        JFrame frame = new JFrame("Chess" + version);
-        JMenuBar menuBar = new JMenuBar();
-        JMenu login = new JMenu("Login");
+        // version use top to figure out how to change the version 
+        JFrame frame        = new JFrame("Chess " + version);
+        JMenuBar menuBar    = new JMenuBar();
 
-        login.add(new JMenuItem("Login"));
+        JMenu signIn        = new JMenu("Sign In"); // Corrected this line
+        JMenu signUp        = new JMenu("Sign Up");
+        JMenu playRemotely  = new JMenu("Connect");
+
+        // login.add(new JMenuItem("Login"));
+        // login.add(new JMenuItem("Sign In"));
+        signIn.add(new JMenuItem("signUp"));
+        signIn.add(new JMenuItem("signIn"));
+        playRemotely.add(new JMenuItem("Server Connection"));
+
+        // add menu item to menuBar
+        menuBar.add(signIn);
+        //menuBar.add(signIn);
+        menuBar.add(playRemotely);
 
         // add the menu to the frame
         frame.setJMenuBar(menuBar);
 
+        // figure out picutre in background 
+        // set the picture of the home screen 
+        // ImageIcon icon = new ImageIcon("download.png");
+
+        // if(icon.getImage() == null) {
+        //     System.out.println("Icon is null");
+        // } else {
+        //     System.out.println("Icon is generated");
+        // }
+        // JLabel backgorund = new JLabel(icon);
+
+        // // size of icon 
+        // backgorund.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        // frame.setContentPane(backgorund);
+
         // size and visibility
         frame.setSize(WIDTH, HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 }
