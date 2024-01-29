@@ -57,8 +57,17 @@ public class Menu {
         JMenu system        = new JMenu("System"); // Corrected this line
 
         system.add(new JMenuItem("Back to main menu"));
+        system.add(new JMenuItem("start game")); 
         system.add(new JMenuItem("Credits"));
         system.add(new JMenuItem("Exit"));
+
+        // listen for click on start game button
+        system.getItem(1).addActionListener(e -> {
+            frame.getContentPane().removeAll();
+            frame.revalidate();
+            frame.repaint();
+            new Board(); 
+        });
 
         // listen for click on exit button
         system.getItem(2).addActionListener(e -> System.exit(0));
