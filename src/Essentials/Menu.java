@@ -107,7 +107,7 @@ public class Menu {
 
         // figure out picutre in background 
         // set the picture of the home screen 
-        java.net.URL bgURL = getClass().getResource("home.png");
+        java.net.URL bgURL = getClass().getResource("assets/home.png");
         ImageIcon chess = new ImageIcon(bgURL);
 
         JLabel backgorund = new JLabel(chess, JLabel.CENTER);
