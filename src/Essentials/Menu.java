@@ -1,6 +1,10 @@
 package Essentials;
 
+import Networking.Client;
+import Networking.Server;
+
 import javax.swing.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @authors:        Joseph J, Braden S
@@ -19,7 +23,7 @@ public class Menu {
     // 2 = minor update
     // 1 = patch update (fixing errors)
 
-    private final String version = "1.3.3"; // braden did this joseph was here 
+    private final String version = "0.0.0"; // braden did this joseph was here braden is now back and changed it to 0 bc shat isnt even close to being done
 
     // fram height and width - changed to 720p bc it is a nice 16:9 ratio :)
     // why change the ratio? - what about moble users? lol 
@@ -41,7 +45,8 @@ public class Menu {
     JFrame frame        = new JFrame("Chess " + version);
     JMenuBar menuBar    = new JMenuBar();
 
-    // might need a smaller loading gif icon 
+    // might need a smaller loading gif icon
+    // braden here, scaling?
     ImageIcon loading = new ImageIcon("assets/gif/loading.gif");
     
     public Menu() {
@@ -54,24 +59,25 @@ public class Menu {
         // JFrame frame        = new JFrame("Chess " + version);
         // JMenuBar menuBar    = new JMenuBar();
 
-        // changed the menu bar to just have exit buttons becuaes of my main menu thing
-        JMenu system        = new JMenu("System"); // Corrected this line
+        JMenu play = new JMenu("Play");
+        JMenu system = new JMenu("System"); // Corrected this line
 
         system.add(new JMenuItem("Back to main menu"));
-        system.add(new JMenuItem("start game")); 
         system.add(new JMenuItem("Credits"));
         system.add(new JMenuItem("Exit"));
 
-        // listen for click on start game button
-        system.getItem(1).addActionListener(e -> {
-            frame.getContentPane().removeAll();
-            frame.revalidate();
-            frame.repaint();
-            new Board(); 
-        });
+        play.add(new JMenuItem("Host Game"));
+        play.add(new JMenuItem("Join Game"));
 
-        // listen for click on exit button
-        system.getItem(2).addActionListener(e -> System.exit(0));
+        // braden here - why does this open a new window for the chess board?
+        // cant we just clear the frame or swap panels?
+        // listen for click on start game button
+        //system.getItem(1).addActionListener(e -> {
+        //    frame.getContentPane().removeAll();
+        //    frame.revalidate();
+        //    frame.repaint();
+        //    new Board();
+        //});
 
         // listen for click on back to main menu button
         system.getItem(0).addActionListener(e -> {
@@ -81,13 +87,19 @@ public class Menu {
             makeMenu();
         });
 
-        // listen for click on credits button 
+        // listen for click on credits button
         system.getItem(1).addActionListener(e -> {
-            credits(); 
+            credits();
         });
 
+        // listen for click on exit button
+        system.getItem(2).addActionListener(e -> System.exit(0));
+
+        play.getItem(0).addActionListener(e -> hostGame());
+        play.getItem(1).addActionListener(e -> joinGame());
 
         // add menu item to menuBar
+        menuBar.add(play);
         menuBar.add(system);
 
         // add the menu to the frame
@@ -132,7 +144,8 @@ public class Menu {
     }
 
     /**
-     * this method will be used to display a loading anamation of a circle like object 
+     * this method will be used to display a loading animation of a circle like object
+     * braden here - this might not be needed bc there isnt like anything to load
      */
     public void loading() {
         frame.add(new JLabel("loading... ", loading, JLabel.CENTER));
@@ -153,4 +166,55 @@ public class Menu {
         stopLoading(); 
         JOptionPane.showMessageDialog(frame, "Chess " + version + "\n\nCreated by:\nJoseph J\nBraden S\n\n© 2024", "Credits", JOptionPane.INFORMATION_MESSAGE);
     }
+
+    // put these in nice little functions :)
+    private void hostGame() {
+        final String username = JOptionPane.showInputDialog("Input your username");
+
+        // using threads to have the host be able to also play the game
+        Thread serverThread = new Thread() {
+            public void run() {
+                Server chessServer = new Server(6683);
+            }
+        };
+        Thread clientTread = new Thread() {
+            public void run() {
+                Client chessServerClient = new Client();
+                if (!chessServerClient.connect("127.0.0.1", 6683, username)) {
+                    chessServerClient = null;
+                }
+            }
+        };
+
+        // starts both the server and the client
+        serverThread.start();
+
+        // this is a very bad way of doing it but it's fine
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException i) {
+            System.out.println("Error waiting for client tread");
+            System.out.println(i);
+            System.exit(1);
+        }
+
+        clientTread.start();
+
+        loading();
+
+    }
+
+    private void joinGame() {
+        final String username = JOptionPane.showInputDialog("Input your username");
+        final String ipAddress = JOptionPane.showInputDialog("Input the IP Address of the Server");
+
+        // creates the client
+        Client chessClient = new Client();
+        // connects and checks if you actually join the server
+        if (!chessClient.connect(ipAddress, 6683, username)) {
+            chessClient = null;
+        }
+        loading();
+    }
+
 }

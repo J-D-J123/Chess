@@ -97,39 +97,43 @@ public class Server {
     }
 
     public void heartbeat() {
-        try {
-            if (player1DataInput.readUTF().substring(0, 4).equals("ALIV")) {
-                player1Connected = true;
-            }
-        } catch (IOException i) {
-            if (player1Connected) {
-                player1Connected = false;
-                System.out.println(player1Username + " has disconnected");
-            }
-        }
-
-        try {
-            if (player2DataInput.readUTF().substring(0, 4).equals("ALIV")) {
-                player2Connected = true;
-            }
-        } catch (IOException i) {
-            if (player2Connected) {
-                player2Connected = false;
-                System.out.println(player2Username + " has disconnected");
+        if (player1Connected) {
+            try {
+                if (player1DataInput.readUTF().substring(0, 7).equals("HEARTBEAT")) {
+                    player1Connected = true;
+                }
+            } catch (IOException i) {
+                if (player1Connected) {
+                    player1Connected = false;
+                    player1ChessSocket = null;
+                    System.out.println(player1Username + " has disconnected");
+                }
             }
         }
 
-        if (!player1Connected && !player2Connected) {
-            ready = false;
+        if (player2Connected) {
+            try {
+                if (player2DataInput.readUTF().substring(0, 7).equals("HEARTBEAT")) {
+                    player2Connected = true;
+                }
+            } catch (IOException i) {
+                if (player2Connected) {
+                    player2Connected = false;
+                    player2ChessSocket = null;
+                    System.out.println(player2Username + " has disconnected");
+                }
+            }
         }
     }
 
     public void gameLoop() {
-        while (ready) {
+        while (true) {
             heartbeat();
-        }
-        while (!ready) {
-            searchForClients();
+
+            if (!player1Connected || !player2Connected) {
+                searchForClients();
+            }
+
         }
     }
 

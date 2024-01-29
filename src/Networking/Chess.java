@@ -46,7 +46,6 @@ public class Chess {
     }
 
     public void joinServer(int port) {
-        // hard coded port and address for now (port is panera's irl address)
         // creates the client
         Client chessClient = new Client();
         // connects and checks if you actually join the server

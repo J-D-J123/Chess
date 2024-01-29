@@ -5,9 +5,9 @@ package Networking;
  * Authors: Braden S
  * Last Modified: Jan 28, 2024
  *
- * Data sending identifers
+ * Data sending tags
  *  INIT - sends the first data the server will recive, this will be the username of the player
- *  ALIV - sends a heart beat signal telling the server that the client is still connected
+ *  HEARTBEAT - sends a heart beat signal telling the server that the client is still connected
  *
  *  more to come
 **/
@@ -15,7 +15,6 @@ package Networking;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -61,7 +60,7 @@ public class Client {
             @Override
             public void run() {
                 try {
-                    dataOutput.writeUTF("ALIV");
+                    dataOutput.writeUTF("HEARTBEAT");
                 } catch (IOException i) {
                     System.out.println("Failed creating heartbeat");
                     System.out.println(i);
@@ -73,6 +72,9 @@ public class Client {
 
     public void startGame() {
         heartbeat();
+
+
+
     }
 
 }
