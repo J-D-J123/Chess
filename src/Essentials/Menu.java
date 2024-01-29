@@ -3,6 +3,7 @@ package Essentials;
 import Networking.Client;
 import Networking.Server;
 
+import java.awt.Dimension;
 import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 
@@ -23,11 +24,12 @@ public class Menu {
     // 2 = minor update
     // 1 = patch update (fixing errors)
 
-    private final String version = "0.0.0"; // braden did this joseph was here braden is now back and changed it to 0 bc shat isnt even close to being done
+    private final String version = "0.0.0"; // braden is now back and changed it to 0 bc shat isnt even close to being done
 
     // fram height and width - changed to 720p bc it is a nice 16:9 ratio :)
     // why change the ratio? - what about moble users? lol 
     // moblie users arent even a real thing lets be honest
+    // yeah computer better 
     private final int WIDTH = 1280;
     private final int HEIGHT = 720;
 
@@ -45,8 +47,7 @@ public class Menu {
     JFrame frame        = new JFrame("Chess " + version);
     JMenuBar menuBar    = new JMenuBar();
 
-    // might need a smaller loading gif icon
-    // braden here, scaling?
+    // braden here, scaling? -> joseph, yeah we can adjust the image size on the img itself. 
     ImageIcon loading = new ImageIcon("assets/gif/loading.gif");
     
     public Menu() {
@@ -72,19 +73,21 @@ public class Menu {
         // braden here - why does this open a new window for the chess board?
         // cant we just clear the frame or swap panels?
         // listen for click on start game button
-        //system.getItem(1).addActionListener(e -> {
-        //    frame.getContentPane().removeAll();
-        //    frame.revalidate();
-        //    frame.repaint();
-        //    new Board();
-        //});
+        system.getItem(1).addActionListener(e -> {
+           frame.getContentPane().removeAll();
+           frame.revalidate();
+           frame.repaint();
+           addButtons();
+           frame.repaint(); 
+
+        });
 
         // listen for click on back to main menu button
         system.getItem(0).addActionListener(e -> {
             frame.getContentPane().removeAll();
             frame.revalidate();
             frame.repaint();
-            makeMenu();
+            // makeMenu();
         });
 
         // listen for click on credits button
@@ -107,35 +110,17 @@ public class Menu {
 
         // figure out picutre in background 
         // set the picture of the home screen 
-        java.net.URL bgURL = getClass().getResource("assets/home.png");
-        ImageIcon chess = new ImageIcon(bgURL);
+        // java.net.URL bgURL = getClass().getResource("assets/home.png");
+        // ImageIcon chess = new ImageIcon(bgURL);
 
-        JLabel backgorund = new JLabel(chess, JLabel.CENTER);
+        // JLabel backgorund = new JLabel(chess, JLabel.CENTER);
 
 
-        // add buttons to the main menu
-        // joinServerButton    = new JButton("Join Server");
-        // hostServerButton    = new JButton("Host Server");
-        // playOfflineButton   = new JButton("Play Offline");
-        // creditsButton       = new JButton("Credits");
-        // exitButton          = new JButton("Exit");
+        addButtons(); 
 
-        // // center buttons to the left side with spacing by 10px
-        // joinServerButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
-        // hostServerButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
-        // playOfflineButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
-        // creditsButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
-        // exitButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
-
-        // frame.add(joinServerButton); 
-        // frame.add(hostServerButton);
-        // frame.add(playOfflineButton);
-        // frame.add(creditsButton);
-        // frame.add(exitButton);
-
-        // add bg to frame 
-        frame.add(backgorund);
-        //frame.setContentPane(backgorund);
+        // add bg to frame -> only works on newer versions of Java 
+        // does not work on school computers 
+        // frame.add(backgorund);
 
         // size and visibility
         frame.setSize(WIDTH, HEIGHT);
@@ -215,6 +200,48 @@ public class Menu {
             chessClient = null;
         }
         loading();
+    }
+
+    private void addButtons() {
+        // add buttons to the main menu
+        joinServerButton    = new JButton("Join Server");
+        hostServerButton    = new JButton("Host Server");
+        playOfflineButton   = new JButton("Play Offline");
+        creditsButton       = new JButton("Credits");
+        exitButton          = new JButton("Exit");
+
+        // Set the preferred size of the buttons
+        Dimension buttonSize = new Dimension(100, 50);
+        buttonSize = new Dimension(100, 50);
+        joinServerButton.setPreferredSize(buttonSize);
+        hostServerButton.setPreferredSize(buttonSize);
+        playOfflineButton.setPreferredSize(buttonSize);
+        creditsButton.setPreferredSize(buttonSize);
+        exitButton.setPreferredSize(buttonSize);
+
+        // Align the buttons to the left
+        joinServerButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
+        hostServerButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
+        playOfflineButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
+        creditsButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
+        exitButton.setAlignmentX(JButton.LEFT_ALIGNMENT);
+
+        // Remove the background of the buttons
+        joinServerButton.setContentAreaFilled(false);
+        hostServerButton.setContentAreaFilled(false);
+        playOfflineButton.setContentAreaFilled(false);
+        creditsButton.setContentAreaFilled(false);
+        exitButton.setContentAreaFilled(false);
+
+        frame.add(joinServerButton); 
+        frame.add(hostServerButton);
+        frame.add(playOfflineButton);
+        frame.add(creditsButton);
+        frame.add(exitButton);
+
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
 }
