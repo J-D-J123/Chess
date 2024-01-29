@@ -33,6 +33,9 @@ public class Chess extends ApplicationAdapter {
 	BitmapFont mainFont;
 	BitmapFont timerFont;
 
+	// 2d tile array
+	Tile[][] boardTiles;
+
 	// player times (probably will be replaced by chess players class later)
 	String whiteTime = "10:00";
 	String blackTime = "10:00";
@@ -40,11 +43,15 @@ public class Chess extends ApplicationAdapter {
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+
+		// the textures
 		chessBoard = new Texture(Gdx.files.internal("Board.png"));
 
+		// the shape renderers
 		whiteTimerBox = new ShapeRenderer();
 		blackTimerBox = new ShapeRenderer();
 
+		// the fonts
 		mainFont = new BitmapFont();
 		mainFont.getData().scale(1);
 		mainFont.setColor(Color.BLACK);
@@ -52,6 +59,17 @@ public class Chess extends ApplicationAdapter {
 		timerFont = new BitmapFont();
 		timerFont.getData().scale(2);
 		timerFont.setColor(Color.BLACK);
+
+		// chess board is 8 by 8
+		boardTiles = new Tile[8][8];
+
+		// creates the board
+		for (int i = 0; i < 8; i++) {
+			for (int l = 0; i < 8; i++) {
+				boardTiles[i][l] = new Tile();
+			}
+		}
+
 	}
 
 	// runs every frame
