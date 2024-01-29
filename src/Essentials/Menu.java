@@ -1,8 +1,6 @@
 package Essentials;
 
-import javax.print.DocFlavor.URL;
 import javax.swing.*;
-import java.awt.BorderLayout;
 
 /**
  * @authors:        Joseph J, Braden S
