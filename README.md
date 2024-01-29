@@ -1,12 +1,12 @@
-## Chess ♟️
+# Chess ♟️
 
-# Features
+### Features
 
  - online play!!
  - its chess
    
-# Cons
+### Cons
  - you have to port forward the server to play (port 6678)
 
-# Creators
+### Creators
  - created by braden s and joey j
