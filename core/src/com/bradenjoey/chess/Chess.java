@@ -106,6 +106,15 @@ public class Chess extends ApplicationAdapter {
 			// renders the title at the top of the screen
 			mainFont.draw(batch, "Chess " + gameVersion,Gdx.graphics.getWidth() / 2f - 75, Gdx.graphics.getHeight() - 15);
 
+			// renders all the tiles
+			for (int i = 0; i < 8; i++) {
+				for (int l = 0; i < 8; i++) {
+					if (boardTiles[i][l].tile != Tiles.EMPTY) {
+						boardTiles[i][l].render(batch);
+					}
+				}
+			}
+
 		batch.end();
 	}
 	
@@ -115,5 +124,7 @@ public class Chess extends ApplicationAdapter {
 		chessBoard.dispose();
 		whiteTimerBox.dispose();
 		blackTimerBox.dispose();
+		mainFont.dispose();
+		timerFont.dispose();
 	}
 }
