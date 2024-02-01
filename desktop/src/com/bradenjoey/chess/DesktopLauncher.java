@@ -10,8 +10,8 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(240);
 		config.setTitle("Chess");
-		config.setWindowedMode(750, 800);
-		config.setResizable(false); // too much shit to deal with for the game to be resizable
+		config.setWindowedMode(900, 600);
+		config.setResizable(true); // this is going to be a pain in the ass
 		new Lwjgl3Application(new Chess(), config);
 	}
 }
