@@ -7,13 +7,27 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Tile {
 
+    // this is probably a waste of memory
     public static final Texture whitePawnTexture = new Texture(Gdx.files.internal("Pieces/White/pw.png"));
+    public static final Texture whiteBishopTexture = new Texture(Gdx.files.internal("Pieces/White/bw.png"));
+    public static final Texture whiteKnightTexture = new Texture(Gdx.files.internal("Pieces/White/kw.png"));
+    public static final Texture whiteRookTexture = new Texture(Gdx.files.internal("Pieces/White/rw.png"));
+    public static final Texture whiteQueenTexture = new Texture(Gdx.files.internal("Pieces/White/qw.png"));
+    public static final Texture whiteKingTexture = new Texture(Gdx.files.internal("Pieces/White/kw.png"));
+    public static final Texture blackPawnTexture = new Texture(Gdx.files.internal("Pieces/Black/pb.png"));
+    public static final Texture blackBishopTexture = new Texture(Gdx.files.internal("Pieces/Black/bb.png"));
+    public static final Texture blackKnightTexture = new Texture(Gdx.files.internal("Pieces/Black/kb.png"));
+    public static final Texture blackRookTexture = new Texture(Gdx.files.internal("Pieces/Black/rb.png"));
+    public static final Texture blackQueenTexture = new Texture(Gdx.files.internal("Pieces/Black/qb.png"));
+    public static final Texture blackKingTexture = new Texture(Gdx.files.internal("Pieces/Black/kb.png"));
 
     // piece color
     public String color = ""; // either "BLACK" or "WHITE"
 
     // default value is Tiles.EMPTY
     public Tiles tile = Tiles.EMPTY;
+
+    private Tiles lastTile;
 
     // pixel positions
     public float x;
@@ -31,6 +45,8 @@ public class Tile {
         this.letter = letter;
         this.number = number;
         this.color = color;
+
+        lastTile = tile;
 
         // set x pixel coords
         switch (this.letter) {
@@ -92,7 +108,58 @@ public class Tile {
     }
 
     public void update() {
-        
+        if (lastTile != tile) {
+            if (color == "WHITE") {
+                switch (tile) {
+                    case EMPTY:
+                        pieceTexture = null;
+                        break;
+                    case PAWN:
+                        pieceTexture = whitePawnTexture;
+                        break;
+                    case BISHOP:
+                        pieceTexture = whiteBishopTexture;
+                        break;
+                    case KNIGHT:
+                        pieceTexture = whiteKnightTexture;
+                        break;
+                    case ROOK:
+                        pieceTexture = whiteRookTexture;
+                        break;
+                    case QUEEN:
+                        pieceTexture = whiteQueenTexture;
+                        break;
+                    case KING:
+                        pieceTexture = whiteKingTexture;
+                        break;
+                }
+            } else {
+                switch (tile) {
+                    case EMPTY:
+                        pieceTexture = null;
+                        break;
+                    case PAWN:
+                        pieceTexture = blackPawnTexture;
+                        break;
+                    case BISHOP:
+                        pieceTexture = blackBishopTexture;
+                        break;
+                    case KNIGHT:
+                        pieceTexture = blackKnightTexture;
+                        break;
+                    case ROOK:
+                        pieceTexture = blackRookTexture;
+                        break;
+                    case QUEEN:
+                        pieceTexture = blackQueenTexture;
+                        break;
+                    case KING:
+                        pieceTexture = blackKingTexture;
+                        break;
+                }
+            }
+            lastTile = tile;
+        }
     }
 
     public void render(SpriteBatch batch) {
