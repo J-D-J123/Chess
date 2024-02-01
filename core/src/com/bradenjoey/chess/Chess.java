@@ -7,124 +7,127 @@ package com.bradenjoey.chess;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 public class Chess extends ApplicationAdapter {
-
-	// Game Version
-	String gameVersion = "0.0.0";
 
 	// sprite batch (just one)
 	SpriteBatch batch;
 
+	// camera and viewport
+	OrthographicCamera camera;
+	ScalingViewport viewport;
+
 	// textures
-	Texture chessBoard;
+	Texture chessBoardTexture; // will move to board class
 
-	// shape renderers
-	ShapeRenderer whiteTimerBox;
-	ShapeRenderer blackTimerBox;
+	// chat related things and such
+	ShapeRenderer chatBox;
 
-	// fonts
-	BitmapFont mainFont;
-	BitmapFont timerFont;
+	// timer related things and such
+	ShapeRenderer timerBox;
 
-	// 2d tile array
-	Tile[][] boardTiles;
+	Board chessBoard;
 
-	// player times (probably will be replaced by chess players class later)
-	String whiteTime = "10:00";
-	String blackTime = "10:00";
+	// mouse position
+	Vector3 mousePosWindow;
+	Vector2 mousePosWorld;
 
+	// constructor
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 
-		// the textures
-		chessBoard = new Texture(Gdx.files.internal("Board.png"));
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		viewport = new ScalingViewport(Scaling.fit, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 
-		// the shape renderers
-		whiteTimerBox = new ShapeRenderer();
-		blackTimerBox = new ShapeRenderer();
+		chessBoardTexture = new Texture(Gdx.files.internal("Board.png"));
 
-		// the fonts
-		mainFont = new BitmapFont();
-		mainFont.getData().scale(1);
-		mainFont.setColor(Color.BLACK);
+		chatBox = new ShapeRenderer();
+		timerBox = new ShapeRenderer();
 
-		timerFont = new BitmapFont();
-		timerFont.getData().scale(2);
-		timerFont.setColor(Color.BLACK);
+		mousePosWindow = new Vector3();
+		mousePosWorld = new Vector2();
 
-		// chess board is 8 by 8
-		boardTiles = new Tile[8][8];
+		// temp set to white untill client and server shit is set up
+		chessBoard = new Board("WHITE");
 
-		// creates the board
-		for (int i = 0; i < 8; i++) {
-			for (int l = 0; i < 8; i++) {
-				boardTiles[i][l] = new Tile();
-			}
-		}
+	}
 
+	public void resize(int width, int height) {
+		viewport.update(width, height);
 	}
 
 	// runs every frame
 	@Override
 	public void render () {
 
-		// sets the screen to the gray boarder color of the board.png
-		ScreenUtils.clear(0.349019608f, 0.349019608f, 0.349019608f, 1); // ugly number
+		// gets mouse pos in world space
+		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+			mousePosWindow.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 
-		batch.begin();
+			// changing this to viewport instend of camera took me legit 5 hours to figure out
+			viewport.unproject(mousePosWindow);
+			mousePosWorld.x = mousePosWindow.x;
+			mousePosWorld.y = mousePosWindow.y;
 
-			// draws the chess board texture
-			batch.draw(chessBoard, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - 50);
-
-			// draws the timer boxes
-			batch.enableBlending(); // i don't know why this works, but it is needed or else the board is just white
-				whiteTimerBox.begin(ShapeRenderer.ShapeType.Filled);
-					whiteTimerBox.rect(0, Gdx.graphics.getHeight() - 50, 125, 50);
-					whiteTimerBox.setColor(0.831372549f, 0.831372549f, 0.831372549f, 1); // more ugly numbers
-				whiteTimerBox.end();
-
-				blackTimerBox.begin(ShapeRenderer.ShapeType.Filled);
-					blackTimerBox.rect(Gdx.graphics.getWidth() - 125, Gdx.graphics.getHeight() - 50, 125, 50);
-					blackTimerBox.setColor(0.580392157f, 0.580392157f, 0.580392157f, 1); // even more ugly numbers
-				blackTimerBox.end();
-			batch.disableBlending();
-
-			// bitmap fonts don't render correctly on linux so one day ill have to change this
-			// draws the timers for the white and black pieces
-			timerFont.draw(batch, whiteTime, 10, Gdx.graphics.getHeight() - 7.5f);
-			timerFont.draw(batch, blackTime, Gdx.graphics.getWidth() - 115, Gdx.graphics.getHeight() - 7.5f);
-
-			// i cant tell if this is centered enough because the fonts don't render correctly on linux so you gotta make this look right
-			// renders the title at the top of the screen
-			mainFont.draw(batch, "Chess " + gameVersion,Gdx.graphics.getWidth() / 2f - 75, Gdx.graphics.getHeight() - 15);
-
-			// renders all the tiles
-			for (int i = 0; i < 8; i++) {
-				for (int l = 0; i < 8; i++) {
-					if (boardTiles[i][l].tile != Tiles.EMPTY) {
-						boardTiles[i][l].render(batch);
+			for (int x = 0; x < 8; x++) {
+				for (int y = 0; y < 8; y++) {
+					if (chessBoard.tiles[x][y].pieceRectangle.contains(mousePosWorld)) {
+						System.out.print(chessBoard.tiles[x][y].letter);
+						System.out.println(chessBoard.tiles[x][y].number);
 					}
 				}
 			}
+		}
 
+		// sets the screen to the same color of the gray boarder color of the board.png
+		ScreenUtils.clear(0.349019608f, 0.349019608f, 0.349019608f, 1); // ugly number
+
+		camera.update();
+
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+			// chess board texture
+			batch.draw(chessBoardTexture, -viewport.getWorldWidth() / 2, -viewport.getWorldHeight() / 2, viewport.getWorldHeight(), viewport.getWorldHeight());
 		batch.end();
+
+		// chat (needes it own batch begin and end because if i dont the board texture will be white)
+		batch.begin();
+			chatBox.begin(ShapeType.Filled);
+				chatBox.rect(600, 19.5f, 280.5f, 560); // oh god
+				chatBox.setColor(0.549019608f, 0.549019608f, 0.549019608f, 1); // ugly numbers again
+			chatBox.end();
+
+			timerBox.begin(ShapeType.Filled);
+				timerBox.rect(600, 530, 280.5f, 50); // oh god
+				timerBox.setColor(0.749019608f, 0.749019608f, 0.749019608f, 1); // even more ugly numbers
+			timerBox.end();
+		batch.end();
+
+		// renders chess board
+		chessBoard.render(batch);
+
 	}
 	
+	// clean up clean up
 	@Override
 	public void dispose () {
+		timerBox.dispose();
+		chatBox.dispose();
+		chessBoardTexture.dispose();
+		// viewport doesnt need to be disposed
+		// camera doesnt need to be disposed
 		batch.dispose();
-		chessBoard.dispose();
-		whiteTimerBox.dispose();
-		blackTimerBox.dispose();
-		mainFont.dispose();
-		timerFont.dispose();
 	}
 }
