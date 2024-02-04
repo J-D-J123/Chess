@@ -80,28 +80,28 @@ public class Tile {
             // set y pixel coords
             switch (this.number) {
                 case 1:
-                    y = -280.5f; // dont worry why this one is diffrent, just accept.
+                    y = 210;
                     break;
                 case 2:
-                    y = -210;
-                    break;
-                case 3:
-                    y = -140;
-                    break;
-                case 4:
-                    y = -70;
-                    break;
-                case 5:
-                    y = 0;
-                    break;
-                case 6:
-                    y = 70;
-                    break;
-                case 7:
                     y = 140;
                     break;
+                case 3:
+                    y = 70;
+                    break;
+                case 4:
+                    y = 0;
+                    break;
+                case 5:
+                    y = -70;
+                    break;
+                case 6:
+                    y = -140;
+                    break;
+                case 7:
+                    y = -210;
+                    break;
                 case 8:
-                    y = 210;
+                    y = -280.5f; // dont worry why this one is diffrent, just accept.
                     break;
             }
         }
@@ -162,12 +162,15 @@ public class Tile {
                     break;
                 case 6:
                     y = 70;
+                    y = -70;
                     break;
                 case 7:
-                    y = 140;
+                    //y = 140;
+                    y = -210;
                     break;
                 case 8:
-                    y = 210;
+                    //y = 210;
+                    y = -280.5f; // dont worry why this one is diffrent, just accept.
                     break;
             }
         }

@@ -72,8 +72,7 @@ public class Board {
 
         if (color == "BLACK") {
             for (int x = 0; x < 8; x++) {
-                for (int y = 0; y < 8; y++) {
-                    System.out.println(y);
+                for (int y = 7; y > -1; y--) {
                     switch (x) {
                         case 0:
                             tiles[x][y] = new Tile('H', y + 1, this.color);
