@@ -19,13 +19,6 @@ public class Board {
     private Vector3 mousePosWindow;
     private Vector2 mousePosWorld;
 
-    private Tiles selectedTile = null;
-	private int selectedTileXIndex;
-	private int selctedTileYIndex;
-    private boolean isScaled = false;
-
-    private MoveValidator validator;
-
     public Board(String color) {
 
         this.color = color;
@@ -104,24 +97,24 @@ public class Board {
         }
 
         // TOP ROW
-        tiles[0][1].tile = Tiles.PAWN;
-        tiles[1][1].tile = Tiles.PAWN;
-        tiles[2][1].tile = Tiles.PAWN;
-        tiles[3][1].tile = Tiles.PAWN;
-        tiles[4][1].tile = Tiles.PAWN;
-        tiles[5][1].tile = Tiles.PAWN;
-        tiles[6][1].tile = Tiles.PAWN;
-        tiles[7][1].tile = Tiles.PAWN;
+        //tiles[0][1].piece.type = PieceType.PAWN;
+        //tiles[1][1].piece.type = PieceType.PAWN;
+        //tiles[2][1].piece.type = PieceType.PAWN;
+        //tiles[3][1].piece.type = PieceType.PAWN;
+        //tiles[4][1].piece.type = PieceType.PAWN;
+        //tiles[5][1].piece.type = PieceType.PAWN;
+        //tiles[6][1].piece.type = PieceType.PAWN;
+        //tiles[7][1].piece.type = PieceType.PAWN;
 
         // BOTTOM ROW
-        tiles[0][0].tile = Tiles.ROOK;
-        tiles[1][0].tile = Tiles.KNIGHT;
-        tiles[2][0].tile = Tiles.BISHOP;
-        tiles[3][0].tile = Tiles.QUEEN;
-        tiles[4][0].tile = Tiles.KING;
-        tiles[5][0].tile = Tiles.BISHOP;
-        tiles[6][0].tile = Tiles.KNIGHT;
-        tiles[7][0].tile = Tiles.ROOK;
+        //tiles[0][0].piece.type = PieceType.ROOK;
+        //tiles[1][0].piece.type = PieceType.KNIGHT;
+        //tiles[2][0].piece.type = PieceType.BISHOP;
+        //tiles[3][0].piece.type = PieceType.QUEEN;
+        //tiles[4][0].piece.type = PieceType.KING;
+        //tiles[5][0].piece.type = PieceType.BISHOP;
+        //tiles[6][0].piece.type = PieceType.KNIGHT;
+        //tiles[7][0].piece.type = PieceType.ROOK;
 
     }
 
@@ -140,13 +133,14 @@ public class Board {
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 8; y++) {
 
-                    if (tiles[x][y].pieceRectangle.contains(mousePosWorld)) {
+                    if (tiles[x][y].tileRectangle.contains(mousePosWorld)) {
                         System.out.print(tiles[x][y].letter);
                         System.out.println(tiles[x][y].number);
 
                         System.out.println("X: " + x + "Y: " + y);
                     }
 
+                    /**
 					if (selectedTile == null && tiles[x][y].pieceRectangle.contains(mousePosWorld) && tiles[x][y].tile != Tiles.EMPTY) {
 						if (!isScaled) {
                             tiles[x][y].pieceRectangle.width = 75;
@@ -171,6 +165,7 @@ public class Board {
                         }
 
 					}
+                    **/
 				}
 			}
 		}
