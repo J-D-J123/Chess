@@ -12,7 +12,7 @@ public class Board {
 
     private Texture chessBoardTexture = new Texture(Gdx.files.internal("Board.png"));
 
-    public String color = "WHITE";
+    public String color;
     
     public Tile[][] tiles;
 
@@ -24,7 +24,11 @@ public class Board {
 	private int selctedTileYIndex;
     private boolean isScaled = false;
 
+    private MoveValidator validator;
+
     public Board(String color) {
+
+        this.color = color;
 
         // chess board is 8 by 8
         tiles = new Tile[8][8];
@@ -33,46 +37,72 @@ public class Board {
         mousePosWorld = new Vector2();
 
         // creates all the tiles
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                switch (x) {
-                    case 0:
-                        tiles[x][y] = new Tile('A', y + 1, this.color);
-                        break;
-                    case 1:
-                        tiles[x][y] = new Tile('B', y + 1, this.color);
-                        break;
-                    case 2:
-                        tiles[x][y] = new Tile('C', y + 1, this.color);
-                        break;
-                    case 3:
-                        tiles[x][y] = new Tile('D', y + 1, this.color);
-                        break;
-                    case 4:
-                        tiles[x][y] = new Tile('E', y + 1, this.color);
-                        break;
-                    case 5:
-                        tiles[x][y] = new Tile('F', y + 1, this.color);
-                        break;
-                    case 6:
-                        tiles[x][y] = new Tile('G', y + 1, this.color);
-                        break;
-                    case 7:
-                        tiles[x][y] = new Tile('H', y + 1, this.color);
-                        break;
+        if (color.equals("WHITE")) {
+            for (int x = 0; x < 8; x++) {
+                for (int y = 0; y < 8; y++) {
+                    switch (x) {
+                        case 0:
+                            tiles[x][y] = new Tile('A', y + 1, this.color);
+                            break;
+                        case 1:
+                            tiles[x][y] = new Tile('B', y + 1, this.color);
+                            break;
+                        case 2:
+                            tiles[x][y] = new Tile('C', y + 1, this.color);
+                            break;
+                        case 3:
+                            tiles[x][y] = new Tile('D', y + 1, this.color);
+                            break;
+                        case 4:
+                            tiles[x][y] = new Tile('E', y + 1, this.color);
+                            break;
+                        case 5:
+                            tiles[x][y] = new Tile('F', y + 1, this.color);
+                            break;
+                        case 6:
+                            tiles[x][y] = new Tile('G', y + 1, this.color);
+                            break;
+                        case 7:
+                            tiles[x][y] = new Tile('H', y + 1, this.color);
+                            break;
+                    }
                 }
             }
         }
 
-        // BOTTOM ROW
-        tiles[0][0].tile = Tiles.ROOK;
-        tiles[1][0].tile = Tiles.KNIGHT;
-        tiles[2][0].tile = Tiles.BISHOP;
-        tiles[3][0].tile = Tiles.QUEEN;
-        tiles[4][0].tile = Tiles.KING;
-        tiles[5][0].tile = Tiles.BISHOP;
-        tiles[6][0].tile = Tiles.KNIGHT;
-        tiles[7][0].tile = Tiles.ROOK;
+        if (color == "BLACK") {
+            for (int x = 0; x < 8; x++) {
+                for (int y = 0; y < 8; y++) {
+                    System.out.println(y);
+                    switch (x) {
+                        case 0:
+                            tiles[x][y] = new Tile('H', y + 1, this.color);
+                            break;
+                        case 1:
+                            tiles[x][y] = new Tile('G', y + 1, this.color);
+                            break;
+                        case 2:
+                            tiles[x][y] = new Tile('F', y + 1, this.color);
+                            break;
+                        case 3:
+                            tiles[x][y] = new Tile('E', y + 1, this.color);
+                            break;
+                        case 4:
+                            tiles[x][y] = new Tile('D', y + 1, this.color);
+                            break;
+                        case 5:
+                            tiles[x][y] = new Tile('C', y + 1, this.color);
+                            break;
+                        case 6:
+                            tiles[x][y] = new Tile('B', y + 1, this.color);
+                            break;
+                        case 7:
+                            tiles[x][y] = new Tile('A', y + 1, this.color);
+                            break;
+                    }
+                }
+            }
+        }
 
         // TOP ROW
         tiles[0][1].tile = Tiles.PAWN;
@@ -83,6 +113,16 @@ public class Board {
         tiles[5][1].tile = Tiles.PAWN;
         tiles[6][1].tile = Tiles.PAWN;
         tiles[7][1].tile = Tiles.PAWN;
+
+        // BOTTOM ROW
+        tiles[0][0].tile = Tiles.ROOK;
+        tiles[1][0].tile = Tiles.KNIGHT;
+        tiles[2][0].tile = Tiles.BISHOP;
+        tiles[3][0].tile = Tiles.QUEEN;
+        tiles[4][0].tile = Tiles.KING;
+        tiles[5][0].tile = Tiles.BISHOP;
+        tiles[6][0].tile = Tiles.KNIGHT;
+        tiles[7][0].tile = Tiles.ROOK;
 
     }
 
@@ -100,10 +140,18 @@ public class Board {
             // moves the pieces
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 8; y++) {
+
+                    if (tiles[x][y].pieceRectangle.contains(mousePosWorld)) {
+                        System.out.print(tiles[x][y].letter);
+                        System.out.println(tiles[x][y].number);
+
+                        System.out.println("X: " + x + "Y: " + y);
+                    }
+
 					if (selectedTile == null && tiles[x][y].pieceRectangle.contains(mousePosWorld) && tiles[x][y].tile != Tiles.EMPTY) {
 						if (!isScaled) {
-                            tiles[x][y].pieceRectangle.width += 5;
-                            tiles[x][y].pieceRectangle.height += 5;
+                            tiles[x][y].pieceRectangle.width = 75;
+                            tiles[x][y].pieceRectangle.height = 76;;
                             isScaled = true;
                         }
 
@@ -118,9 +166,9 @@ public class Board {
                         selectedTile = null;
 
                         if (isScaled) {
+                            tiles[x][y].pieceRectangle.width = 70;
+                            tiles[x][y].pieceRectangle.height = 70.5f;
                             isScaled = false;
-                            tiles[x][y].pieceRectangle.width -= 5;
-                            tiles[x][y].pieceRectangle.height -= 5;
                         }
 
 					}

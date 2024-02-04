@@ -48,60 +48,128 @@ public class Tile {
 
         lastTile = tile;
 
-        // set x pixel coords
-        switch (this.letter) {
-            case 'A':
-                x = -430;
-                break;
-            case 'B':
-                x = -360;
-                break;
-            case 'C':
-                x = -290;
-                break;
-            case 'D':
-                x = -220;
-                break;
-            case 'E':
-                x = -150;
-                break;
-            case 'F':
-                x = -80;
-                break;
-            case 'G':
-                x = -10;
-                break;
-            case 'H':
-                x = 60;
-                break;
+        if (color.equals("WHITE")) {
+            // set x pixel coords
+            switch (this.letter) {
+                case 'A':
+                    x = -430;
+                    break;
+                case 'B':
+                    x = -360;
+                    break;
+                case 'C':
+                    x = -290;
+                    break;
+                case 'D':
+                    x = -220;
+                    break;
+                case 'E':
+                    x = -150;
+                    break;
+                case 'F':
+                    x = -80;
+                    break;
+                case 'G':
+                    x = -10;
+                    break;
+                case 'H':
+                    x = 60;
+                    break;
+            }
+
+            // set y pixel coords
+            switch (this.number) {
+                case 1:
+                    y = -280.5f; // dont worry why this one is diffrent, just accept.
+                    break;
+                case 2:
+                    y = -210;
+                    break;
+                case 3:
+                    y = -140;
+                    break;
+                case 4:
+                    y = -70;
+                    break;
+                case 5:
+                    y = 0;
+                    break;
+                case 6:
+                    y = 70;
+                    break;
+                case 7:
+                    y = 140;
+                    break;
+                case 8:
+                    y = 210;
+                    break;
+            }
         }
 
-        // set y pixel coords
-        switch (this.number) {
-            case 1:
-                y = -280.5f; // dont worry why this one is diffrent, just accept.
-                break;
-            case 2:
-                y = -210;
-                break;
-            case 3:
-                y = -140;
-                break;
-            case 4:
-                y = -70;
-                break;
-            case 5:
-                y = 0;
-                break;
-            case 6:
-                y = 70;
-                break;
-            case 7:
-                y = 140;
-                break;
-            case 8:
-                y = 210;
-                break;
+        if (color.equals("BLACK")) {
+            // set x pixel coords
+            switch (this.letter) {
+                case 'A':
+                    //x = -430;
+                    x = 60;
+                    break;
+                case 'B':
+                    //x = -360;
+                    x = -10;
+                    break;
+                case 'C':
+                    //x = -290;
+                    x = -80;
+                    break;
+                case 'D':
+                    //x = -220;
+                    x = -150;
+                    break;
+                case 'E':
+                    //x = -150;
+                    x = -220;
+                    break;
+                case 'F':
+                    //x = -80;
+                    x = -290;
+                    break;
+                case 'G':
+                    //x = -10;
+                    x = -360;
+                    break;
+                case 'H':
+                    //x = 60;
+                    x = -430;
+                    break;
+            }
+
+            // set y pixel coords
+            switch (this.number) {
+                case 1:
+                    y = -280.5f; // dont worry why this one is diffrent, just accept.
+                    break;
+                case 2:
+                    y = -210;
+                    break;
+                case 3:
+                    y = -140;
+                    break;
+                case 4:
+                    y = -70;
+                    break;
+                case 5:
+                    y = 0;
+                    break;
+                case 6:
+                    y = 70;
+                    break;
+                case 7:
+                    y = 140;
+                    break;
+                case 8:
+                    y = 210;
+                    break;
+            }
         }
 
         pieceRectangle = new Rectangle(x, y, 70, 70.5f); // its not perfect, but its works :(

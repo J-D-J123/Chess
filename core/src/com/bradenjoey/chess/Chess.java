@@ -7,7 +7,6 @@ package com.bradenjoey.chess;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,8 +14,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
-
-import com.bradenjoey.networking.Client;
 
 public class Chess extends ApplicationAdapter {
 
@@ -47,7 +44,7 @@ public class Chess extends ApplicationAdapter {
 		timerBox = new ShapeRenderer();
 
 		// temp set to white until client and server shit is set up
-		chessBoard = new Board("WHITE");
+		chessBoard = new Board("BLACK");
 
 	}
 
