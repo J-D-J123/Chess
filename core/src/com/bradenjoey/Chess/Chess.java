@@ -40,7 +40,9 @@ public class Chess extends ApplicationAdapter {
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		viewport = new ScalingViewport(Scaling.fit, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 
+		// move lastMoveRenderer to new class
 		chatBox = new ShapeRenderer();
+		// timerBox should prolly be in the board class maybe?
 		timerBox = new ShapeRenderer();
 
 		// temp set to white until client and server shit is set up
@@ -60,7 +62,7 @@ public class Chess extends ApplicationAdapter {
 
 		// sets the screen to the same color of the gray boarder color of the board.png
 		ScreenUtils.clear(0.349019608f, 0.349019608f, 0.349019608f, 1); // ugly number
-
+		
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 

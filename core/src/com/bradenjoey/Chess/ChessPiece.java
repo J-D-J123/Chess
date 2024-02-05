@@ -2,19 +2,21 @@ package com.bradenjoey.Chess;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 
 public class ChessPiece {
 
     // chess piece textures
     public static final Texture whitePawnTexture = new Texture(Gdx.files.internal("Pieces/White/pw.png"));
     public static final Texture whiteBishopTexture = new Texture(Gdx.files.internal("Pieces/White/bw.png"));
-    public static final Texture whiteKnightTexture = new Texture(Gdx.files.internal("Pieces/White/kw.png"));
+    public static final Texture whiteKnightTexture = new Texture(Gdx.files.internal("Pieces/White/nw.png"));
     public static final Texture whiteRookTexture = new Texture(Gdx.files.internal("Pieces/White/rw.png"));
     public static final Texture whiteQueenTexture = new Texture(Gdx.files.internal("Pieces/White/qw.png"));
     public static final Texture whiteKingTexture = new Texture(Gdx.files.internal("Pieces/White/kw.png"));
     public static final Texture blackPawnTexture = new Texture(Gdx.files.internal("Pieces/Black/pb.png"));
     public static final Texture blackBishopTexture = new Texture(Gdx.files.internal("Pieces/Black/bb.png"));
-    public static final Texture blackKnightTexture = new Texture(Gdx.files.internal("Pieces/Black/kb.png"));
+    public static final Texture blackKnightTexture = new Texture(Gdx.files.internal("Pieces/Black/nb.png"));
     public static final Texture blackRookTexture = new Texture(Gdx.files.internal("Pieces/Black/rb.png"));
     public static final Texture blackQueenTexture = new Texture(Gdx.files.internal("Pieces/Black/qb.png"));
     public static final Texture blackKingTexture = new Texture(Gdx.files.internal("Pieces/Black/kb.png"));
@@ -27,9 +29,13 @@ public class ChessPiece {
     public PieceType type;
     public Texture chessPieceTexture;
 
-    public ChessPiece(PieceType type, String color) {
+    public Rectangle chessPieceRectangle;
+
+    public ChessPiece(PieceType type, String color, float x, float y) {
         this.type = type;
         this.color = color;
+
+        chessPieceRectangle = new Rectangle(x, y, 70, 70.5f);
 
         changePiece();
     }
@@ -81,6 +87,12 @@ public class ChessPiece {
                     break;
             }
         }
+    }
+
+    public void render(SpriteBatch batch) {
+        batch.begin();
+            batch.draw(chessPieceTexture, chessPieceRectangle.x, chessPieceRectangle.y, 70, 70.5f);
+        batch.end();
     }
 
 }

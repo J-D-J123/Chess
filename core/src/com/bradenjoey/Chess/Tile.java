@@ -82,75 +82,38 @@ public class Tile {
                     break;
             }
         }
-
-
-        // had to change the pixel coords
-        // just had to swap them arround  - joey 
+ 
         if (color.equals("BLACK")) {
             // set x pixel coords
             switch (letter) {
                 case 'A':
                     x = 60;
-                    //x = -430;
                     break;
                 case 'B':
                     x = -10;
-                    //x = -360;
                     break;
                 case 'C':
                     x = -80;
-                    //x = -290;
                     break;
                 case 'D':
                     x = -150;
-                    //x = -220;
                     break;
                 case 'E':
                     x = -220;
-                    //x = -150;
                     break;
                 case 'F':
                     x = -290;
-                    //x = -80; 
                     break;
                 case 'G':
                     x = -360;
-                    //x = -10; 
                     break;
                 case 'H':
                     x = -430;
-                    //x = 60; 
                     break;
             }
 
             // set y pixel coords
             switch (number) {
-                /**
-                case 1:
-                    y = -280.5f; // dont worry why this one is diffrent, just accept.
-                    break;
-                case 2:
-                    y = -210;
-                    break;
-                case 3:
-                    y = -140;
-                    break;
-                case 4:
-                    y = -70;
-                    break;
-                case 5:
-                    y = 0;
-                    break;
-                case 6:
-                    y = 70;
-                    break;
-                case 7:
-                    y = 140;
-                    break;
-                case 8:
-                    y = 210;
-                    break;
-                **/
                 case 1:
                     y = 210;
                     break;
@@ -187,11 +150,9 @@ public class Tile {
     }
 
     public void render(SpriteBatch batch) {
-        batch.begin();
-            if (piece != null) {
-                batch.draw(piece.chessPieceTexture, tileRectangle.x , tileRectangle.y, tileRectangle.width, tileRectangle.height);
-            }
-        batch.end();
+        if (piece != null) {
+            piece.render(batch);
+        }
     }
 
 }

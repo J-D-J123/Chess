@@ -1,4 +1,4 @@
-package com.bradenjoey.Chess;
+package com.bradenjoey.chess;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
