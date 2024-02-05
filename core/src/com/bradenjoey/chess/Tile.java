@@ -85,32 +85,43 @@ public class Tile {
             }
         }
 
+
+        // had to change the pixel coords
+        // just had to swap them arround  - joey 
         if (color.equals("BLACK")) {
             // set x pixel coords
             switch (letter) {
                 case 'A':
-                    x = 60;
+                    // x = 60;
+                    x = -430;
                     break;
                 case 'B':
-                    x = -10;
-                    break;
-                case 'C':
-                    x = -80;
-                    break;
-                case 'D':
-                    x = -150;
-                    break;
-                case 'E':
-                    x = -220;
-                    break;
-                case 'F':
-                    x = -290;
-                    break;
-                case 'G':
+                    // x = -10;
                     x = -360;
                     break;
+                case 'C':
+                    // x = -80;
+                    x = -290;
+                    break;
+                case 'D':
+                    // x = -150;
+                    x = -220;
+                    break;
+                case 'E':
+                    // x = -220;
+                    x = -150;
+                    break;
+                case 'F':
+                    // x = -290;
+                    x = -80; 
+                    break;
+                case 'G':
+                    // x = -360;
+                    x = -10; 
+                    break;
                 case 'H':
-                    x = -430;
+                    // x = -430;
+                    x = 60; 
                     break;
             }
 
