@@ -1,4 +1,4 @@
-package com.bradenjoey.chess;
+package com.bradenjoey.Chess;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;

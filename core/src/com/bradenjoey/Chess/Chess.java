@@ -1,4 +1,4 @@
-package com.bradenjoey.chess;
+package com.bradenjoey.Chess;
 
 // Chess.java
 // Authors: Braden S

@@ -1,4 +1,4 @@
-package com.bradenjoey.chess;
+package com.bradenjoey.Chess;
 
 public enum PieceType {
     PAWN,

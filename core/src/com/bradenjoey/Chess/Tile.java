@@ -1,4 +1,4 @@
-package com.bradenjoey.chess;
+package com.bradenjoey.Chess;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -9,8 +9,6 @@ public class Tile {
     public String color; // either "BLACK" or "WHITE"
 
     public ChessPiece piece;
-
-    private ChessPiece lastPiece;
 
     // pixel positions
     public float x;
