@@ -18,7 +18,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		Chess chessGame = new Chess(); 
+		// Chess chessGame = new Chess(); 
 
 		config.setForegroundFPS(240);
 		config.setTitle("Chess" + version);
@@ -28,6 +28,6 @@ public class DesktopLauncher {
 		// comment this out rn it is not working correctly idk why 
 		//chessGame.setMenu(new menu()); 
 
-		new Lwjgl3Application(chessGame, config);
+		new Lwjgl3Application(new Chess(), config);
 	}
 }
