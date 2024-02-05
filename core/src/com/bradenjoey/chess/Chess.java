@@ -44,7 +44,7 @@ public class Chess extends ApplicationAdapter {
 		timerBox = new ShapeRenderer();
 
 		// temp set to white until client and server shit is set up
-		chessBoard = new Board("BLACK");
+		chessBoard = new Board("WHITE");
 
 	}
 
