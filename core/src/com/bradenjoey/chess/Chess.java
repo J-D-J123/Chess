@@ -82,6 +82,7 @@ public class Chess extends ApplicationAdapter {
 
 	}
 	
+	// TO:DO make everything dispose nicely
 	// clean up clean up
 	@Override
 	public void dispose () {

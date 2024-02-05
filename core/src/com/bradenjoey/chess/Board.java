@@ -65,7 +65,7 @@ public class Board {
 
         if (color == "BLACK") {
             for (int x = 0; x < 8; x++) {
-                for (int y = 7; y > -1; y--) {
+                for (int y = 0; y < 8; y++) {
                     switch (x) {
                         case 0:
                             tiles[x][y] = new Tile('H', y + 1, this.color);
@@ -97,24 +97,24 @@ public class Board {
         }
 
         // TOP ROW
-        //tiles[0][1].piece.type = PieceType.PAWN;
-        //tiles[1][1].piece.type = PieceType.PAWN;
-        //tiles[2][1].piece.type = PieceType.PAWN;
-        //tiles[3][1].piece.type = PieceType.PAWN;
-        //tiles[4][1].piece.type = PieceType.PAWN;
-        //tiles[5][1].piece.type = PieceType.PAWN;
-        //tiles[6][1].piece.type = PieceType.PAWN;
-        //tiles[7][1].piece.type = PieceType.PAWN;
+        tiles[0][1].piece = new ChessPiece(PieceType.PAWN, color);
+        tiles[1][1].piece = new ChessPiece(PieceType.PAWN, color);
+        tiles[2][1].piece = new ChessPiece(PieceType.PAWN, color);
+        tiles[3][1].piece = new ChessPiece(PieceType.PAWN, color);
+        tiles[4][1].piece = new ChessPiece(PieceType.PAWN, color);
+        tiles[5][1].piece = new ChessPiece(PieceType.PAWN, color);
+        tiles[6][1].piece = new ChessPiece(PieceType.PAWN, color);
+        tiles[7][1].piece = new ChessPiece(PieceType.PAWN, color);
 
         // BOTTOM ROW
-        //tiles[0][0].piece.type = PieceType.ROOK;
-        //tiles[1][0].piece.type = PieceType.KNIGHT;
-        //tiles[2][0].piece.type = PieceType.BISHOP;
-        //tiles[3][0].piece.type = PieceType.QUEEN;
-        //tiles[4][0].piece.type = PieceType.KING;
-        //tiles[5][0].piece.type = PieceType.BISHOP;
-        //tiles[6][0].piece.type = PieceType.KNIGHT;
-        //tiles[7][0].piece.type = PieceType.ROOK;
+        tiles[0][0].piece = new ChessPiece(PieceType.ROOK, color);
+        tiles[1][0].piece = new ChessPiece(PieceType.KNIGHT, color);
+        tiles[2][0].piece = new ChessPiece(PieceType.BISHOP, color);
+        tiles[3][0].piece = new ChessPiece(PieceType.QUEEN, color);
+        tiles[4][0].piece = new ChessPiece(PieceType.KING, color);
+        tiles[5][0].piece = new ChessPiece(PieceType.BISHOP, color);
+        tiles[6][0].piece = new ChessPiece(PieceType.KNIGHT, color);
+        tiles[7][0].piece = new ChessPiece(PieceType.ROOK, color);
 
     }
 
@@ -129,7 +129,12 @@ public class Board {
 			mousePosWorld.x = mousePosWindow.x;
 			mousePosWorld.y = mousePosWindow.y;
 
-            // moves the pieces
+            movePiece(mousePosWorld);
+		}
+    }
+
+    // moves the pieces.. in the future
+    public void movePiece(Vector2 mousePos) {
 			for (int x = 0; x < 8; x++) {
 				for (int y = 0; y < 8; y++) {
 
@@ -137,38 +142,10 @@ public class Board {
                         System.out.print(tiles[x][y].letter);
                         System.out.println(tiles[x][y].number);
 
-                        System.out.println("X: " + x + "Y: " + y);
+                        System.out.println("X: " + x + " Y: " + y);
                     }
-
-                    /**
-					if (selectedTile == null && tiles[x][y].pieceRectangle.contains(mousePosWorld) && tiles[x][y].tile != Tiles.EMPTY) {
-						if (!isScaled) {
-                            tiles[x][y].pieceRectangle.width = 75;
-                            tiles[x][y].pieceRectangle.height = 76;;
-                            isScaled = true;
-                        }
-
-						selectedTile = tiles[x][y].tile;
-						selectedTileXIndex = x;
-						selctedTileYIndex = y;
-					}
-                    if (selectedTile != null && tiles[x][y].pieceRectangle.contains(mousePosWorld) && tiles[x][y].tile == Tiles.EMPTY) {
-						tiles[x][y].tile = selectedTile;
-						tiles[selectedTileXIndex][selctedTileYIndex].tile = Tiles.EMPTY;
-
-                        selectedTile = null;
-
-                        if (isScaled) {
-                            tiles[x][y].pieceRectangle.width = 70;
-                            tiles[x][y].pieceRectangle.height = 70.5f;
-                            isScaled = false;
-                        }
-
-					}
-                    **/
 				}
 			}
-		}
     }
 
     public void update(ScalingViewport viewport) {

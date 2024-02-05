@@ -22,14 +22,65 @@ public class ChessPiece {
     public char letter;
     public int number;
 
-    public String Color;
+    public String color;
 
     public PieceType type;
     public Texture chessPieceTexture;
 
-    // used for piece promotions
-    public void changePiece() {
+    public ChessPiece(PieceType type, String color) {
+        this.type = type;
+        this.color = color;
 
+        changePiece();
+    }
+
+    // used for piece promotions and when creating pieces
+    // joey pls come up with a better function name
+    public void changePiece() {
+        if (color.equals("WHITE")) {
+            switch (type) {
+                case PAWN:
+                    chessPieceTexture = whitePawnTexture;
+                    break;
+                case BISHOP:
+                    chessPieceTexture = whiteBishopTexture;
+                    break;
+                case KNIGHT:
+                    chessPieceTexture = whiteKnightTexture;
+                    break;
+                case ROOK:
+                    chessPieceTexture = whiteRookTexture;
+                    break;
+                case QUEEN:
+                    chessPieceTexture = whiteQueenTexture;
+                    break;
+                case KING:
+                    chessPieceTexture = whiteKingTexture;
+                    break;
+            }
+        }
+        if (color.equals("BLACK")) {
+            switch (type) {
+                case PAWN:
+                    chessPieceTexture = blackPawnTexture;
+                    break;
+                case BISHOP:
+                    chessPieceTexture = blackBishopTexture;
+                    break;
+                case KNIGHT:
+                    chessPieceTexture = blackKnightTexture;
+                    break;
+                case ROOK:
+                    chessPieceTexture = blackRookTexture;
+                    break;
+                case QUEEN:
+                    chessPieceTexture = blackQueenTexture;
+                    break;
+                case KING:
+                    chessPieceTexture = blackKingTexture;
+                    break;
+            }
+        }
     }
 
 }

@@ -116,7 +116,33 @@ public class Tile {
 
             // set y pixel coords
             switch (number) {
-                                case 1:
+                /**
+                case 1:
+                    y = -280.5f; // dont worry why this one is diffrent, just accept.
+                    break;
+                case 2:
+                    y = -210;
+                    break;
+                case 3:
+                    y = -140;
+                    break;
+                case 4:
+                    y = -70;
+                    break;
+                case 5:
+                    y = 0;
+                    break;
+                case 6:
+                    y = 70;
+                    break;
+                case 7:
+                    y = 140;
+                    break;
+                case 8:
+                    y = 210;
+                    break;
+                **/
+                case 1:
                     y = 210;
                     break;
                 case 2:
@@ -140,7 +166,7 @@ public class Tile {
                 case 8:
                     y = -280.5f; // dont worry why this one is diffrent, just accept.
                     break;
-            }
+                }
         }
 
         tileRectangle = new Rectangle(x, y, 70, 70.5f);
