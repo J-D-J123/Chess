@@ -19,6 +19,9 @@ public class Board {
     private Vector3 mousePosWindow;
     private Vector2 mousePosWorld;
 
+    private boolean isClicked = false;
+    private boolean hasPiece = false;
+
     public Board(String color) {
 
         this.color = color;
@@ -144,7 +147,9 @@ public class Board {
     }
 
     public void input(ScalingViewport viewport) {
+        System.out.println(isClicked);
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+            isClicked = true;
             // gets mouse pos in world space
 			mousePosWindow.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 
@@ -153,9 +158,9 @@ public class Board {
 			viewport.unproject(mousePosWindow);
 			mousePosWorld.x = mousePosWindow.x;
 			mousePosWorld.y = mousePosWindow.y;
-
-            movePiece(mousePosWorld);
-		}
+		} else {
+            isClicked = false;
+        }
     }
 
     public void movePiece(Vector2 mousePos) {
@@ -166,6 +171,18 @@ public class Board {
                     System.out.print(tiles[x][y].letter);
                     System.out.println(tiles[x][y].number);
                     System.out.println("X: " + x + " Y: " + y);
+
+                    hasPiece = true;
+                }
+
+                if (hasPiece && isClicked && tiles[x][y].piece != null) {
+                    tiles[x][y].piece.chessPieceRectangle.x = mousePosWorld.x;
+                    tiles[x][y].piece.chessPieceRectangle.y = mousePosWorld.y;
+                    hasPiece = true;
+                }
+
+                if (!isClicked) {
+                    hasPiece = false;
                 }
             }
         }
@@ -175,6 +192,8 @@ public class Board {
 
         // gets input
         input(viewport);
+
+        movePiece(mousePosWorld);
 
         // updates the tiles
         for (int x = 0; x < 8; x++) {
