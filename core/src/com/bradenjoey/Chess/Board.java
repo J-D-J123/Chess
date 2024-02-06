@@ -156,7 +156,7 @@ public class Board {
     public void movePiece(Vector2 mousePos) {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
-                if (tiles[x][y].tileRectangle.contains(mousePos) && tiles[x][y].piece != null) {
+                if (tiles[x][y].tileRectangle.contains(mousePos) && tiles[x][y].piece != null && !hasPiece) {
                     // debug stuff
                     System.out.print(tiles[x][y].letter);
                     System.out.println(tiles[x][y].number);
