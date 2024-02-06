@@ -22,9 +22,11 @@ public class DesktopLauncher {
 		config.setResizable(true); // this is going to be a pain in the ass
 
 		// run the main menu first then if user clicks new game or host game run the chess application 
-		// new Lwjgl3Application(new com.bradenjoey.Chess.Chess(), config);
+		new Lwjgl3Application(new com.bradenjoey.Chess.Chess(), config);
+
+		// ignore this for now still in progress 
 		Chess chess = new Chess(); 
-		chess.setScreen(new Menu(chess)); 
+		// chess.setScreen(new Menu(chess));  
 
 		new Lwjgl3Application(chess, config); 
 		
