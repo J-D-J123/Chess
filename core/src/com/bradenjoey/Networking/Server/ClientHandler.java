@@ -20,6 +20,7 @@ public class ClientHandler {
     private ObjectInputStream objectInputStream;
 
     public String username;
+    public String color;
 
     public String message;
 
@@ -89,12 +90,21 @@ public class ClientHandler {
     }
 
     public void sendMove(String move) {
-        Packet messagePacket = new Packet();
-        messagePacket.type = PacketType.MOVE;
-        messagePacket.sender = "SERVER";
-        messagePacket.data = message;
+        Packet movePacket = new Packet();
+        movePacket.type = PacketType.MOVE;
+        movePacket.sender = "SERVER";
+        movePacket.data = message;
 
-        sendPacket(messagePacket);
+        sendPacket(movePacket);
+    }
+
+    public void sendInit() {
+        Packet initPacket = new Packet();
+        initPacket.type = PacketType.INIT;
+        initPacket.sender = "SERVER";
+        initPacket.color = color;
+
+        sendPacket(initPacket);
     }
 
     private void sendPacket(Packet packet) {

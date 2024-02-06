@@ -13,6 +13,8 @@ public class Server {
 
     private ArrayList<String> moveHistory;
 
+    public boolean isReady;
+
     public static void main(String[] args) {
         Server chatServer = new Server();
         chatServer.startServer(6678);
@@ -67,6 +69,22 @@ public class Server {
         while (!serverSocket.isClosed()) {
             disconnectChecker();
             newMoveChecker();
+            if (connectedClients == 2) {
+                if (clientHandlers.get(0).socket.isConnected() && clientHandlers.get(1).socket.isConnected() && !isReady) {
+                    isReady = true;
+    
+                    if (Math.random() <= .5) {
+                        clientHandlers.get(0).color = "WHITE";
+                        clientHandlers.get(1).color = "BLACK";
+                    } else {
+                        clientHandlers.get(0).color = "BLACK";
+                        clientHandlers.get(1).color = "WHITE";
+                    }
+
+                    clientHandlers.get(0).sendInit();
+                    clientHandlers.get(1).sendInit();
+                }
+            }
         }
     }
 

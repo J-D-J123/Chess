@@ -18,6 +18,8 @@ import com.bradenjoey.Networking.Client.Client;
 
 public class Chess extends ApplicationAdapter {
 
+	boolean createdChessBoard;
+
 	// menu 
 	private Menu menu; 
 
@@ -44,6 +46,11 @@ public class Chess extends ApplicationAdapter {
 	// constructor pretty much
 	@Override
 	public void create () {
+		chessClient = new Client();
+
+		// temp, when you get done the menu, ill change this
+		chessClient.connect("localhost", 6678);
+
 		batch = new SpriteBatch();
 
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -53,14 +60,6 @@ public class Chess extends ApplicationAdapter {
 		chatBox = new ShapeRenderer();
 		// timerBox should prolly be in the board class maybe?
 		timerBox = new ShapeRenderer();
-
-		// temp set to white until client and server shit is set up
-		chessBoard = new Board("WHITE");
-
-		chessClient = new Client();
-
-		// temp, when you get done the menu, ill change this
-		chessClient.connect("localhost", 6678);
 
 	}
 
@@ -72,12 +71,22 @@ public class Chess extends ApplicationAdapter {
 	// runs every frame
 	@Override
 	public void render () {
-		chessBoard.update(viewport);
 
-		if (chessBoard.latestMove != null) {
-			chessClient.sendMove(chessBoard.latestMove);
-			chessBoard.latestMove = null;
+		if (chessClient.color != null && !createdChessBoard) {
+			// temp set to white until client and server shit is set up
+			chessBoard = new Board(chessClient.color);
+			createdChessBoard = true;
 		}
+
+		if (createdChessBoard) {
+			if (chessBoard.latestMove != null) {
+				chessClient.sendMove(chessBoard.latestMove);
+				chessBoard.latestMove = null;
+			}
+
+			chessBoard.update(viewport);
+		}
+
 
 		// sets the screen to the same color of the gray boarder color of the board.png
 		ScreenUtils.clear(0.349019608f, 0.349019608f, 0.349019608f, 1); // ugly number
@@ -98,8 +107,10 @@ public class Chess extends ApplicationAdapter {
 			timerBox.end();
 		batch.end();
 
+		if (createdChessBoard) {
 		// renders chess board
 		chessBoard.render(batch, viewport);
+		}
 
 	}
 	

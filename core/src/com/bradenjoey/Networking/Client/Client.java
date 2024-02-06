@@ -13,6 +13,7 @@ public class Client {
 
     public Socket socket;
     private String username;
+    public String color;
 
     private ObjectOutputStream packetOutputStream;
     private ObjectInputStream packetInputStream;
@@ -75,7 +76,8 @@ public class Client {
                     if (packet != null) {
                         switch (packet.type) {
                             case INIT:
-                                // do stuff
+                                color = packet.color;
+                                System.out.println(color);
                                 break;
                             case MOVE:
                                 System.out.println(packet.data);
