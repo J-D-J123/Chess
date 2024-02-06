@@ -19,7 +19,9 @@ public class Board {
     private Vector3 mousePosWindow;
     private Vector2 mousePosWorld;
 
-    private boolean isClicked = false;
+    private int selectedChessPieceTileXIndex;
+    private int selectedChessPieceTileYIndex;
+
     private boolean hasPiece = false;
 
     public Board(String color) {
@@ -100,8 +102,6 @@ public class Board {
         }
 
         // creates the piece on the board in the correct pos
-        // if you want you can make this better, ill get around to making it better later
-
         // TOP ROW 
         for(int x = 7; x>=0; x--) {
             tiles[x][1].piece = new ChessPiece(PieceType.PAWN, "WHITE", tiles[x][1].tileRectangle.x, tiles[x][1].tileRectangle.y);
@@ -116,7 +116,7 @@ public class Board {
         tiles[5][0].piece = new ChessPiece(PieceType.BISHOP, "WHITE", tiles[5][0].tileRectangle.x, tiles[5][0].tileRectangle.y);
         tiles[6][0].piece = new ChessPiece(PieceType.KNIGHT, "WHITE", tiles[6][0].tileRectangle.x, tiles[6][0].tileRectangle.y);
         tiles[7][0].piece = new ChessPiece(PieceType.ROOK, "WHITE", tiles[7][0].tileRectangle.x, tiles[7][0].tileRectangle.y);
-
+    
         // black pieces
 
         // TOP ROW
@@ -136,54 +136,54 @@ public class Board {
 
     }
 
-    public void input(ScalingViewport viewport) {
-        System.out.println(isClicked);
+    public void movePiece(ScalingViewport viewport) {
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-            isClicked = true;
             // gets mouse pos in world space
 			mousePosWindow.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 
-			// changing this to viewport instend of camera took me legit 5 hours to figure out
             // changes the mouse world space location to the window space location
 			viewport.unproject(mousePosWindow);
 			mousePosWorld.x = mousePosWindow.x;
 			mousePosWorld.y = mousePosWindow.y;
-		} else {
-            isClicked = false;
-        }
-    }
 
-    public void movePiece(Vector2 mousePos) {
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                if (tiles[x][y].tileRectangle.contains(mousePos) && tiles[x][y].piece != null && !hasPiece) {
-                    // debug stuff
-                    System.out.print(tiles[x][y].letter);
-                    System.out.println(tiles[x][y].number);
-                    System.out.println("X: " + x + " Y: " + y);
-
-                    hasPiece = true;
-                }
-
-                if (hasPiece && isClicked && tiles[x][y].piece != null) {
-                    tiles[x][y].piece.chessPieceRectangle.x = mousePosWorld.x;
-                    tiles[x][y].piece.chessPieceRectangle.y = mousePosWorld.y;
-                    hasPiece = true;
-                }
-
-                if (!isClicked) {
-                    hasPiece = false;
+            for (int x = 0; x < 8; x++) {
+                for (int y = 0; y < 8; y++) {
+                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && !hasPiece) {
+                        selectedChessPieceTileXIndex = x;
+                        selectedChessPieceTileYIndex = y;
+                        hasPiece = true;
+                    }
                 }
             }
+
+            if (hasPiece) {
+                tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.x = mousePosWorld.x - tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.width / 2;
+                tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.y = mousePosWorld.y - tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.height / 2;
+            }
+
+		} else {
+            for (int x = 0; x < 8; x++) {
+                for (int y = 0; y < 8; y++) {
+                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece == null && hasPiece) {
+                        tiles[x][y].piece = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece;
+                        tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece = null;
+
+                        tiles[x][y].piece.chessPieceRectangle.x = tiles[x][y].x;
+                        tiles[x][y].piece.chessPieceRectangle.y = tiles[x][y].y;
+
+                        tiles[x][y].piece.letter = tiles[x][y].letter;
+                        tiles[x][y].piece.number = tiles[x][y].number;
+                    }
+                }
+            }
+            hasPiece = false;
         }
     }
 
     public void update(ScalingViewport viewport) {
 
         // gets input
-        input(viewport);
-
-        movePiece(mousePosWorld);
+        movePiece(viewport);
 
         // updates the tiles
         for (int x = 0; x < 8; x++) {
