@@ -14,6 +14,8 @@ public class Board {
     private Texture chessBoardTexture = new Texture(Gdx.files.internal("Board.png"));
 
     public String color;
+    private boolean createdTiles;
+    private boolean createdPieces;
     
     public Tile[][] tiles;
 
@@ -29,84 +31,48 @@ public class Board {
 
     private Sound moveSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/move.mp3"));
 
-    public Board(String color) {
-
-        this.color = color;
-
-        // chess board is 8 by 8
+    public Board() {
         tiles = new Tile[8][8];
 
         mousePosWindow = new Vector3();
         mousePosWorld = new Vector2();
+    }
 
+    public void createTiles() {
         // creates all the tiles
-        if (color.equals("WHITE")) {
-            for (int x = 0; x < 8; x++) {
-                for (int y = 0; y < 8; y++) {
-                    switch (x) {
-                        case 0:
-                            tiles[x][y] = new Tile('A', y + 1, this.color);
-                            break;
-                        case 1:
-                            tiles[x][y] = new Tile('B', y + 1, this.color);
-                            break;
-                        case 2:
-                            tiles[x][y] = new Tile('C', y + 1, this.color);
-                            break;
-                        case 3:
-                            tiles[x][y] = new Tile('D', y + 1, this.color);
-                            break;
-                        case 4:
-                            tiles[x][y] = new Tile('E', y + 1, this.color);
-                            break;
-                        case 5:
-                            tiles[x][y] = new Tile('F', y + 1, this.color);
-                            break;
-                        case 6:
-                            tiles[x][y] = new Tile('G', y + 1, this.color);
-                            break;
-                        case 7:
-                            tiles[x][y] = new Tile('H', y + 1, this.color);
-                            break;
-                    }
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                switch (x) {
+                    case 0:
+                        tiles[x][y] = new Tile('A', y + 1, this.color);
+                        break;
+                    case 1:
+                        tiles[x][y] = new Tile('B', y + 1, this.color);
+                        break;
+                    case 2:
+                        tiles[x][y] = new Tile('C', y + 1, this.color);
+                        break;
+                    case 3:
+                        tiles[x][y] = new Tile('D', y + 1, this.color);
+                        break;
+                    case 4:
+                        tiles[x][y] = new Tile('E', y + 1, this.color);
+                        break;
+                    case 5:
+                        tiles[x][y] = new Tile('F', y + 1, this.color);
+                        break;
+                    case 6:
+                        tiles[x][y] = new Tile('G', y + 1, this.color);
+                        break;
+                    case 7:
+                        tiles[x][y] = new Tile('H', y + 1, this.color);
+                        break;
                 }
             }
         }
+    }
 
-        if (color == "BLACK") {
-            for (int x = 0; x < 8; x++) {
-                for (int y = 0; y < 8; y++) {
-                    switch (x) {
-                        case 0:
-                            tiles[x][y] = new Tile('A', y + 1, this.color);
-                            break;
-                        case 1:
-                            tiles[x][y] = new Tile('B', y + 1, this.color);
-                            break;
-                        case 2:
-                            tiles[x][y] = new Tile('C', y + 1, this.color);
-                            break;
-                        case 3:
-                            tiles[x][y] = new Tile('D', y + 1, this.color);
-                            break;
-                        case 4:
-                            tiles[x][y] = new Tile('E', y + 1, this.color);
-                            break;
-                        case 5:
-                            tiles[x][y] = new Tile('F', y + 1, this.color);
-                            break;
-                        case 6:
-                            tiles[x][y] = new Tile('G', y + 1, this.color);
-                            break;
-                        case 7:
-                            tiles[x][y] = new Tile('H', y + 1, this.color);
-                            break;
-                    }
-                }
-            }
-        }
-
-        // creates the piece on the board in the correct pos
+    public void createPieces() {
         // TOP ROW 
         for(int x = 7; x>=0; x--) {
             tiles[x][1].piece = new ChessPiece(PieceType.PAWN, "WHITE", tiles[x][1].tileRectangle.x, tiles[x][1].tileRectangle.y);
@@ -138,9 +104,9 @@ public class Board {
         tiles[2][7].piece = new ChessPiece(PieceType.BISHOP, "BLACK", tiles[2][7].tileRectangle.x, tiles[2][7].tileRectangle.y);
         tiles[1][7].piece = new ChessPiece(PieceType.KNIGHT, "BLACK", tiles[1][7].tileRectangle.x, tiles[1][7].tileRectangle.y);
         tiles[0][7].piece = new ChessPiece(PieceType.ROOK, "BLACK", tiles[0][7].tileRectangle.x, tiles[0][7].tileRectangle.y);
-
     }
 
+    // move its own class? input.java?
     public void movePiece(ScalingViewport viewport) {
 		if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
             // gets mouse pos in world space
@@ -156,7 +122,7 @@ public class Board {
                     if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && !hasPiece && tiles[x][y].piece.color == color) {
                         selectedChessPieceTileXIndex = x;
                         selectedChessPieceTileYIndex = y;
-
+                        
                         hasPiece = true;
                     }
                 }
@@ -199,16 +165,28 @@ public class Board {
     }
 
     public void update(ScalingViewport viewport) {
+        if (color != null) {
 
-        // gets input
-        movePiece(viewport);
-
-        // updates the tiles
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                tiles[x][y].update();
+            if (!createdTiles) {
+                createTiles();
+                createdTiles = true;
             }
-        }        
+
+            if (!createdPieces) {
+                createPieces();
+                createdPieces = true;
+            }
+
+            // gets input
+            movePiece(viewport);
+
+            // updates the tiles
+            for (int x = 0; x < 8; x++) {
+                for (int y = 0; y < 8; y++) {
+                    tiles[x][y].update();
+                }
+            }       
+        } 
     }
 
     public void render(SpriteBatch batch, ScalingViewport viewport) {
@@ -217,9 +195,11 @@ public class Board {
             batch.draw(chessBoardTexture, -viewport.getWorldWidth() / 2, -viewport.getWorldHeight() / 2, viewport.getWorldHeight(), viewport.getWorldHeight());
         batch.end();
 
-        for (int x = 0; x < 8; x++) {
-            for (int y = 0; y < 8; y++) {
-                tiles[x][y].render(batch);
+        if (createdTiles && createdPieces) {
+            for (int x = 0; x < 8; x++) {
+                for (int y = 0; y < 8; y++) {
+                    tiles[x][y].render(batch);
+                }
             }
         }
     }

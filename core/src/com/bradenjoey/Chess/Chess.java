@@ -18,8 +18,6 @@ import com.bradenjoey.Networking.Client.Client;
 
 public class Chess extends ApplicationAdapter {
 
-	boolean createdChessBoard;
-
 	// menu 
 	private Menu menu; 
 
@@ -51,6 +49,8 @@ public class Chess extends ApplicationAdapter {
 		// temp, when you get done the menu, ill change this
 		chessClient.connect("localhost", 6678);
 
+		chessBoard = new Board();
+
 		batch = new SpriteBatch();
 
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -72,21 +72,17 @@ public class Chess extends ApplicationAdapter {
 	@Override
 	public void render () {
 
-		if (chessClient.color != null && !createdChessBoard) {
-			// temp set to white until client and server shit is set up
-			chessBoard = new Board(chessClient.color);
-			createdChessBoard = true;
-		}
+		/////////////////////////////////////
+		// updating begins here            //
+		/////////////////////////////////////
 
-		if (createdChessBoard) {
-			if (chessBoard.latestMove != null) {
-				chessClient.sendMove(chessBoard.latestMove);
-				chessBoard.latestMove = null;
-			}
+		chessBoard.update(viewport);
 
-			chessBoard.update(viewport);
-		}
+		chessBoard.color = chessClient.color;
 
+		/////////////////////////////////////
+		// real rendering begins here      //
+		/////////////////////////////////////
 
 		// sets the screen to the same color of the gray boarder color of the board.png
 		ScreenUtils.clear(0.349019608f, 0.349019608f, 0.349019608f, 1); // ugly number
@@ -107,10 +103,8 @@ public class Chess extends ApplicationAdapter {
 			timerBox.end();
 		batch.end();
 
-		if (createdChessBoard) {
 		// renders chess board
 		chessBoard.render(batch, viewport);
-		}
 
 	}
 	
