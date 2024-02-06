@@ -2,24 +2,25 @@ package com.bradenjoey.Chess;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class ChessPiece {
 
     // chess piece textures
-    public static final Texture whitePawnTexture = new Texture(Gdx.files.internal("Pieces/White/pw.png"));
-    public static final Texture whiteBishopTexture = new Texture(Gdx.files.internal("Pieces/White/bw.png"));
-    public static final Texture whiteKnightTexture = new Texture(Gdx.files.internal("Pieces/White/nw.png"));
-    public static final Texture whiteRookTexture = new Texture(Gdx.files.internal("Pieces/White/rw.png"));
-    public static final Texture whiteQueenTexture = new Texture(Gdx.files.internal("Pieces/White/qw.png"));
-    public static final Texture whiteKingTexture = new Texture(Gdx.files.internal("Pieces/White/kw.png"));
-    public static final Texture blackPawnTexture = new Texture(Gdx.files.internal("Pieces/Black/pb.png"));
-    public static final Texture blackBishopTexture = new Texture(Gdx.files.internal("Pieces/Black/bb.png"));
-    public static final Texture blackKnightTexture = new Texture(Gdx.files.internal("Pieces/Black/nb.png"));
-    public static final Texture blackRookTexture = new Texture(Gdx.files.internal("Pieces/Black/rb.png"));
-    public static final Texture blackQueenTexture = new Texture(Gdx.files.internal("Pieces/Black/qb.png"));
-    public static final Texture blackKingTexture = new Texture(Gdx.files.internal("Pieces/Black/kb.png"));
+    public Texture whitePawnTexture = new Texture(Gdx.files.internal("Pieces/White/pw.png"));
+    public Texture whiteBishopTexture = new Texture(Gdx.files.internal("Pieces/White/bw.png"));
+    public Texture whiteKnightTexture = new Texture(Gdx.files.internal("Pieces/White/nw.png"));
+    public Texture whiteRookTexture = new Texture(Gdx.files.internal("Pieces/White/rw.png"));
+    public Texture whiteQueenTexture = new Texture(Gdx.files.internal("Pieces/White/qw.png"));
+    public Texture whiteKingTexture = new Texture(Gdx.files.internal("Pieces/White/kw.png"));
+    public Texture blackPawnTexture = new Texture(Gdx.files.internal("Pieces/Black/pb.png"));
+    public Texture blackBishopTexture = new Texture(Gdx.files.internal("Pieces/Black/bb.png"));
+    public Texture blackKnightTexture = new Texture(Gdx.files.internal("Pieces/Black/nb.png"));
+    public Texture blackRookTexture = new Texture(Gdx.files.internal("Pieces/Black/rb.png"));
+    public Texture blackQueenTexture = new Texture(Gdx.files.internal("Pieces/Black/qb.png"));
+    public Texture blackKingTexture = new Texture(Gdx.files.internal("Pieces/Black/kb.png"));
 
     public char letter;
     public int number;
@@ -34,6 +35,21 @@ public class ChessPiece {
     public ChessPiece(PieceType type, String color, float x, float y) {
         this.type = type;
         this.color = color;
+
+        // this makes the textures look nice and smooth, before it looked like shit so
+        whitePawnTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        whiteBishopTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        whiteKnightTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        whiteRookTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        whiteQueenTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        whiteKingTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        blackPawnTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        blackBishopTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        blackKnightTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        blackRookTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        blackQueenTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+        blackKingTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+
 
         chessPieceRectangle = new Rectangle(x, y, 70, 70.5f);
 
