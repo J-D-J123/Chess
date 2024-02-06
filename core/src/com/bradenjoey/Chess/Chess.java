@@ -17,6 +17,9 @@ import com.badlogic.gdx.utils.viewport.ScalingViewport;
 
 public class Chess extends ApplicationAdapter {
 
+	// menu 
+	private Menu menu; 
+
 	// sprite batch (just one)
 	SpriteBatch batch;
 
@@ -31,6 +34,8 @@ public class Chess extends ApplicationAdapter {
 	ShapeRenderer timerBox;
 
 	Board chessBoard;
+
+	public Object font;
 
 	// constructor pretty much
 	@Override
@@ -93,5 +98,18 @@ public class Chess extends ApplicationAdapter {
 		// viewport doesnt need to be disposed
 		// camera doesnt need to be disposed
 		batch.dispose();
+	}
+
+	/**
+	 * the changeScreen() method changes the screen to the menu phase 
+	 * @param screenType sets different screens for the user 
+	 */
+	public void changeScreen(int screenType) {
+		// home menu
+		if (screenType == 1) {
+			// menu.setScreen(new Menu(this)); // pause menu 
+		} else if( screenType == 2) {
+			// menu.setScreen(new ChessScreen(this));  // home menu 
+		}
 	}
 }
