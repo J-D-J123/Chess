@@ -1,5 +1,11 @@
 # Chess ♟️
 
+### Updating 
+ - Home Menu
+ - Chat
+ - Piece movement
+ - Packet Sending 
+
 ### Features
 
  - online play!!
