@@ -2,6 +2,7 @@ package com.bradenjoey.Chess;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +17,8 @@ public class Board {
     
     public Tile[][] tiles;
 
+    public String latestMove;
+
     private Vector3 mousePosWindow;
     private Vector2 mousePosWorld;
 
@@ -23,6 +26,8 @@ public class Board {
     private int selectedChessPieceTileYIndex;
 
     private boolean hasPiece = false;
+
+    private Sound moveSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/move.mp3"));
 
     public Board(String color) {
 
@@ -148,7 +153,7 @@ public class Board {
 
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 8; y++) {
-                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && !hasPiece) {
+                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && !hasPiece && tiles[x][y].piece.color == color) {
                         selectedChessPieceTileXIndex = x;
                         selectedChessPieceTileYIndex = y;
                         hasPiece = true;
@@ -164,12 +169,15 @@ public class Board {
 		} else {
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 8; y++) {
-                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && hasPiece) {
+                    if (tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece != null) {
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.x = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].x;
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.y = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].y;
                     }
                     
                     if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece == null && hasPiece) {
+                        //latestMove = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.type + String.valueOf(tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].letter) + tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].number + " -> " + tiles[x][y].piece.type + String.valueOf(tiles[x][y].letter) + tiles[x][y].number;
+                        //System.out.println(latestMove);
+
                         tiles[x][y].piece = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece;
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece = null;
 
@@ -178,6 +186,8 @@ public class Board {
 
                         tiles[x][y].piece.letter = tiles[x][y].letter;
                         tiles[x][y].piece.number = tiles[x][y].number;
+
+                        moveSound.play();
                     }
                 }
             }

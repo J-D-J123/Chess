@@ -5,9 +5,6 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class Tile {
 
-    // piece color
-    public String color; // either "BLACK" or "WHITE"
-
     public ChessPiece piece;
 
     // pixel positions
@@ -22,7 +19,6 @@ public class Tile {
     public Tile(char letter, int number, String color) {
         this.letter = letter;
         this.number = number;
-        this.color = color;
 
         // change this shit to be a loop (maybe??)
         if (color.equals("WHITE")) {
