@@ -164,6 +164,11 @@ public class Board {
 		} else {
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 8; y++) {
+                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && hasPiece) {
+                        tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.x = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].x;
+                        tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.y = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].y;
+                    }
+                    
                     if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece == null && hasPiece) {
                         tiles[x][y].piece = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece;
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece = null;
