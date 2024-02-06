@@ -175,10 +175,12 @@ public class Board {
                     }
                     
                     if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece == null && hasPiece) {
-                        //latestMove = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.type + String.valueOf(tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].letter) + tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].number + " -> " + tiles[x][y].piece.type + String.valueOf(tiles[x][y].letter) + tiles[x][y].number;
-                        //System.out.println(latestMove);
 
                         tiles[x][y].piece = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece;
+
+                        latestMove = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.type + " " + String.valueOf(tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].letter) + tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].number + " -> " + tiles[x][y].piece.type + " " + String.valueOf(tiles[x][y].letter) + tiles[x][y].number;
+                        System.out.println(latestMove);
+
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece = null;
 
                         tiles[x][y].piece.chessPieceRectangle.x = tiles[x][y].x;
