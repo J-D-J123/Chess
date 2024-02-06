@@ -156,6 +156,7 @@ public class Board {
                     if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && !hasPiece && tiles[x][y].piece.color == color) {
                         selectedChessPieceTileXIndex = x;
                         selectedChessPieceTileYIndex = y;
+
                         hasPiece = true;
                     }
                 }

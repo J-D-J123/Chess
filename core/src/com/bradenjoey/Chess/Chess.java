@@ -57,10 +57,10 @@ public class Chess extends ApplicationAdapter {
 		// temp set to white until client and server shit is set up
 		chessBoard = new Board("WHITE");
 
-		//chessClient = new Client();
+		chessClient = new Client();
 
 		// temp, when you get done the menu, ill change this
-		//chessClient.connect("localhost", 6678);
+		chessClient.connect("localhost", 6678);
 
 	}
 
@@ -74,10 +74,10 @@ public class Chess extends ApplicationAdapter {
 	public void render () {
 		chessBoard.update(viewport);
 
-		//if (chessBoard.latestMove != null) {
-			//chessClient.sendMove(chessBoard.latestMove);
-			//chessBoard.latestMove = null;
-		//}
+		if (chessBoard.latestMove != null) {
+			chessClient.sendMove(chessBoard.latestMove);
+			chessBoard.latestMove = null;
+		}
 
 		// sets the screen to the same color of the gray boarder color of the board.png
 		ScreenUtils.clear(0.349019608f, 0.349019608f, 0.349019608f, 1); // ugly number

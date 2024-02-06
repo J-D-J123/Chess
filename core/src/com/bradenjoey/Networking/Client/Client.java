@@ -23,6 +23,7 @@ public class Client {
         System.out.println("Welcome to Chess");
         System.out.print("Please Input a Username to Begin: ");
 
+        @SuppressWarnings("resource")
         Scanner usernameScanner = new Scanner(System.in);
         username = usernameScanner.nextLine();
     }
@@ -31,8 +32,6 @@ public class Client {
         try {
             socket = new Socket(ipAddress, port);
             System.out.println("Connected to Server!");
-
-            //initStreams();
         } catch (IOException i) {
             System.out.println("Error Occured When Trying to Connecting to Chat Server");
             System.out.println(i);
@@ -40,9 +39,9 @@ public class Client {
 
         initStreams();
     
-        // listenForPackets();
+        listenForPackets();
 
-        // sendInit();
+        sendInit();
     }
 
     public void initStreams() {
@@ -75,6 +74,9 @@ public class Client {
 
                     if (packet != null) {
                         switch (packet.type) {
+                            case INIT:
+                                // do stuff
+                                break;
                             case MOVE:
                                 System.out.println(packet.data);
                                 break;
