@@ -25,10 +25,8 @@ public class DesktopLauncher {
 		new Lwjgl3Application(new com.bradenjoey.Chess.Chess(), config);
 
 		// ignore this for now still in progress 
-		Chess chess = new Chess(); 
-		// chess.setScreen(new Menu(chess));  
-
-		new Lwjgl3Application(chess, config); 
+		// Chess chess = new Chess(); 
+		// chess.setScreen(new Menu(chess)); 
 		
 	}
 }
