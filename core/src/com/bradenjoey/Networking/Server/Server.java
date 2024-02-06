@@ -7,15 +7,15 @@ import java.util.ArrayList;
 public class Server {
     
     private ServerSocket serverSocket;
-    private ArrayList<ClientHandler> clientHandlers;
+    private ClientHandler[] clientHandlers;
 
     private int connectedClients;
 
-    private ArrayList<String> messages;
+    private ArrayList<String> moveHistory;
 
     public static void main(String[] args) {
         Server chatServer = new Server();
-        chatServer.startServer(1234);
+        chatServer.startServer(6678);
     }
 
     public void startServer(int port) {
@@ -28,8 +28,8 @@ public class Server {
             System.out.println(i);
         }
 
-        clientHandlers = new ArrayList<>();
-        messages = new ArrayList<>();
+        clientHandlers = new ClientHandler[2];
+        moveHistory = new ArrayList<>();
 
         System.out.println("Listening at Port: " + port);
         listenForClients();
@@ -42,10 +42,10 @@ public class Server {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (connectedClients == clientHandlers.size()) {
-                    clientHandlers.add(new ClientHandler(serverSocket));
+                while (connectedClients == clientHandlers.length) {
+                    clientHandlers[connectedClients] = new ClientHandler(serverSocket);
 
-                    while (!clientHandlers.get(connectedClients).isInitalized) {
+                    while (!clientHandlers[connectedClients].isInitalized) {
                         try {
                             Thread.sleep(100);
                         } catch (InterruptedException e) {
@@ -54,8 +54,8 @@ public class Server {
                         }
                     }
 
-                    if (clientHandlers.get(connectedClients).socket.isConnected()) {
-                        System.out.println(clientHandlers.get(connectedClients).username + " Has Connected!");
+                    if (clientHandlers[connectedClients].socket.isConnected()) {
+                        System.out.println(clientHandlers[connectedClients].username + " Has Connected!");
                         connectedClients++;
                     }
                 }
@@ -66,42 +66,42 @@ public class Server {
     public void serverLoop() {
         while (!serverSocket.isClosed()) {
             disconnectChecker();
-            newMessageChecker();
+            newMoveChecker();
         }
     }
 
     public void disconnectChecker() {
         if (connectedClients > 0) {
-            for (int i = 0; i < clientHandlers.size(); i++) {
-                if (clientHandlers.get(i).socket.isClosed()) {
-                    clientHandlers.get(i).exit();
-                    String message = clientHandlers.get(i).username + " Has Disconnected";
-                    clientHandlers.remove(i);
+            for (int i = 0; i < clientHandlers.length; i++) {
+                if (clientHandlers[i].socket.isClosed()) {
+                    clientHandlers[i].exit();
+                    String message = clientHandlers[i].username + " Has Disconnected";
+                    clientHandlers[i] = null;
                     connectedClients--;
-                    messages.add(message);
-                    broadcastMessage(message, -1);
+                    moveHistory.add(message);
+                    broadcastMove(message, -1); // -1 because no sender will ever have an index of -1
                 }
             }
         }
     }
 
-    public void newMessageChecker() {
+    public void newMoveChecker() {
         if (connectedClients > 0) {
-            for (int i = 0; i < clientHandlers.size(); i++) {
-                if (clientHandlers.get(i).message != null && clientHandlers.get(i).socket.isConnected()) {
-                    messages.add(clientHandlers.get(i).message);
-                    clientHandlers.get(i).message = null;
-                    broadcastMessage(messages.get(messages.size() - 1), i);
+            for (int i = 0; i < clientHandlers.length; i++) {
+                if (clientHandlers[i].message != null && clientHandlers[i].socket.isConnected()) {
+                    moveHistory.add(clientHandlers[i].message);
+                    clientHandlers[i].message = null;
+                    broadcastMove(moveHistory.get(moveHistory.size() - 1), i);
                 }
             }
         }
     }
 
-    public void broadcastMessage(String message, int originalSenderIndex) {
-        System.out.println(messages.get(messages.size() - 1));
-        for (int i = 0; i < clientHandlers.size(); i++) {
-            if (clientHandlers.get(i).socket.isConnected() && i != originalSenderIndex) {
-                clientHandlers.get(i).sendMessage(message);
+    public void broadcastMove(String move, int originalSenderIndex) {
+        System.out.println(moveHistory.get(moveHistory.size() - 1));
+        for (int i = 0; i < clientHandlers.length; i++) {
+            if (clientHandlers[i].socket.isConnected() && i != originalSenderIndex) {
+                clientHandlers[i].sendMove(move);
             }
         }
     }

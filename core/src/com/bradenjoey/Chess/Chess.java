@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScalingViewport;
+import com.bradenjoey.Networking.Client.Client;
 
 public class Chess extends ApplicationAdapter {
 
@@ -35,6 +36,9 @@ public class Chess extends ApplicationAdapter {
 
 	Board chessBoard;
 
+	Client chessClient;
+
+	// note from braden - there is a bitmap font data type in libgdx
 	public Object font;
 
 	// constructor pretty much
@@ -53,8 +57,14 @@ public class Chess extends ApplicationAdapter {
 		// temp set to white until client and server shit is set up
 		chessBoard = new Board("WHITE");
 
+		//chessClient = new Client();
+
+		// temp, when you get done the menu, ill change this
+		//chessClient.connect("localhost", 6678);
+
 	}
 
+	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height);
 	}
@@ -62,8 +72,12 @@ public class Chess extends ApplicationAdapter {
 	// runs every frame
 	@Override
 	public void render () {
-		// updates the chess board
 		chessBoard.update(viewport);
+
+		//if (chessBoard.latestMove != null) {
+			//chessClient.sendMove(chessBoard.latestMove);
+			//chessBoard.latestMove = null;
+		//}
 
 		// sets the screen to the same color of the gray boarder color of the board.png
 		ScreenUtils.clear(0.349019608f, 0.349019608f, 0.349019608f, 1); // ugly number

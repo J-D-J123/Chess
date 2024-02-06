@@ -11,49 +11,44 @@ import com.bradenjoey.Networking.Packet.PacketType;
 
 public class Client {
 
-    private Socket socket;
+    public Socket socket;
     private String username;
 
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
-
-    private Scanner messageScanner;
-
-    public static void main(String[] args) {
-        new Client();
-    }
+    private ObjectOutputStream packetOutputStream;
+    private ObjectInputStream packetInputStream;
 
     public Client() {
-        System.out.println("Welcome to the Chat Client");
+
+        // temp
+        System.out.println("Welcome to Chess");
         System.out.print("Please Input a Username to Begin: ");
 
         Scanner usernameScanner = new Scanner(System.in);
         username = usernameScanner.nextLine();
-
-        connect("localhost", 1234);
-
-        initStreams();
-
-        listenForPackets();
-
-        sendInit();
-
     }
 
-    private void connect(String ipAddress, int port) {
+    public void connect(String ipAddress, int port) {
         try {
             socket = new Socket(ipAddress, port);
             System.out.println("Connected to Server!");
+
+            //initStreams();
         } catch (IOException i) {
             System.out.println("Error Occured When Trying to Connecting to Chat Server");
             System.out.println(i);
         }
+
+        initStreams();
+    
+        // listenForPackets();
+
+        // sendInit();
     }
 
-    private void initStreams() {
+    public void initStreams() {
         try {
-            objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            objectInputStream = new ObjectInputStream(socket.getInputStream());
+            packetOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            packetInputStream = new ObjectInputStream(socket.getInputStream());
         } catch (IOException i) {
             System.out.println("Error Occured While Starting I/O Streams");
             System.out.println(i);
@@ -69,7 +64,7 @@ public class Client {
                     Packet packet = null;
 
                     try {
-                        packet = (Packet) objectInputStream.readObject();
+                        packet = (Packet) packetInputStream.readObject();
                     } catch (IOException i) {
                         System.out.println("Server Has Closed!");
                         System.exit(0);
@@ -80,7 +75,7 @@ public class Client {
 
                     if (packet != null) {
                         switch (packet.type) {
-                            case MESSAGE:
+                            case MOVE:
                                 System.out.println(packet.data);
                                 break;
                         }
@@ -91,31 +86,6 @@ public class Client {
         }).start();
     }
 
-    private void clientLoop() {
-        while (socket.isConnected()) {
-            getMessage();
-        }
-    }
-
-    private void getMessage() {
-        String message = null;
-        Scanner messageScanner = new Scanner(System.in);
-        message = messageScanner.nextLine();
-
-        if (message != null) {
-            sendMessage(message);
-        }
-    }
-
-    private void sendMessage(String message) {
-        Packet messagePacket = new Packet();
-        messagePacket.type = PacketType.MESSAGE;
-        messagePacket.sender = username;
-        messagePacket.data = message;
-
-        sendPacket(messagePacket);
-    }
-
     private void sendInit() {
         Packet initPacket = new Packet();
         initPacket.type = PacketType.INIT;
@@ -124,9 +94,18 @@ public class Client {
         sendPacket(initPacket);
     }
 
+    public void sendMove(String move) {
+        Packet messagePacket = new Packet();
+        messagePacket.type = PacketType.MOVE;
+        messagePacket.sender = username;
+        messagePacket.data = move;
+
+        sendPacket(messagePacket);
+    }
+
     private void sendPacket(Packet packet) {
         try {
-            objectOutputStream.writeObject(packet);
+            packetOutputStream.writeObject(packet);
         } catch (IOException i) {
             System.out.println("Error Occured While Trying to Send Packet");
             System.out.println(i);

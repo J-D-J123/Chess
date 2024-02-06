@@ -12,7 +12,6 @@ import com.bradenjoey.Networking.Packet.PacketType;
 public class ClientHandler {
 
     public boolean isInitalized;
-
     private boolean isListening;
     
     public Socket socket;
@@ -78,8 +77,8 @@ public class ClientHandler {
                                 username = packet.sender;
                                 isInitalized = true;
                                 break;
-                            case MESSAGE:
-                                message = username + ": " + packet.data;
+                            case MOVE:
+                                // move packet
                                 break;
                         }
                     }
@@ -89,9 +88,9 @@ public class ClientHandler {
         }).start();
     }
 
-    public void sendMessage(String message) {
+    public void sendMove(String move) {
         Packet messagePacket = new Packet();
-        messagePacket.type = PacketType.MESSAGE;
+        messagePacket.type = PacketType.MOVE;
         messagePacket.sender = "SERVER";
         messagePacket.data = message;
 
