@@ -271,7 +271,7 @@ public class Board {
         tiles[newXIndex][newYIndex].piece.type = newPieceType;
 
         tiles[newXIndex][newYIndex].piece.chessPieceRectangle.x = tiles[newXIndex][newYIndex].x;
-        tiles[newXIndex][newYIndex].piece.chessPieceRectangle.x = tiles[newXIndex][newYIndex].y;
+        tiles[newXIndex][newYIndex].piece.chessPieceRectangle.y = tiles[newXIndex][newYIndex].y;
 
         tiles[originalXIndex][originalYIndex].piece = null;
 
