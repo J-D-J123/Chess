@@ -148,7 +148,6 @@ public class Board {
                         tiles[x][y].piece = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece;
 
                         latestMove = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.type + " " + String.valueOf(tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].letter) + tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].number + " -> " + tiles[x][y].piece.type + " " + String.valueOf(tiles[x][y].letter) + tiles[x][y].number;
-                        System.out.println(latestMove);
 
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece = null;
 
@@ -168,8 +167,118 @@ public class Board {
     }
 
     public void decodeMove(String move) {
+
+        System.out.println(move);
+
         String color = move.substring(0, 5);
-        System.out.println(color);
+
+        char originalPieceTypeChar = move.charAt(6);
+        PieceType originalPieceType = null;
+        char originalPieceLetter = move.charAt(8);
+        int originalPieceNumber = Integer.parseInt(move.substring(9, 10));
+
+        int originalXIndex = -1; // tile index will never be -1
+        int originalYIndex = originalPieceNumber - 1;
+
+        switch (originalPieceLetter) {
+            case 'A':
+                originalXIndex = 0;
+                break;
+            case 'B':
+                originalXIndex = 1;
+                break;   
+            case 'C':
+                originalXIndex = 2;                
+                break;
+            case 'D':
+                originalXIndex = 3;
+                break;
+            case 'E':
+                originalXIndex = 4;
+                break;
+            case 'F':
+                originalXIndex = 5;
+                break;       
+            case 'G':
+                originalXIndex = 6;
+                break;    
+            case 'H':
+                originalXIndex = 7;
+                break;                              
+        }
+
+        // there probably is a better way to do these convertions but its fine for now i suppose
+        switch (originalPieceTypeChar) {
+            case 'P':
+                originalPieceType = PieceType.P;
+                break;
+            case 'B':
+                originalPieceType = PieceType.B;
+                break;
+            case 'N':
+                originalPieceType = PieceType.N;
+                break;
+            case 'R':
+                originalPieceType = PieceType.R;
+                break;
+            case 'Q':
+                originalPieceType = PieceType.Q;
+                break;
+            case 'K':
+                originalPieceType = PieceType.K;
+                break;
+        }
+
+        PieceType newPieceType = originalPieceType; // temp, will change when piece promotions becomes a thing
+        char newPieceLetter = move.charAt(16);
+        int newPieceNumber = Integer.parseInt(move.substring(17, 18));
+
+        int newXIndex = -1; // tile index will never be -1
+        int newYIndex = newPieceNumber - 1;
+
+        // there probably is a better way to do these convertions but its fine for now i suppose
+        switch (newPieceLetter) {
+            case 'A':
+                newXIndex = 0;
+                break;
+            case 'B':
+                newXIndex = 1;
+                break;   
+            case 'C':
+                newXIndex = 2;                
+                break;
+            case 'D':
+                newXIndex = 3;
+                break;
+            case 'E':
+                newXIndex = 4;
+                break;
+            case 'F':
+                newXIndex = 5;
+                break;       
+            case 'G':
+                newXIndex = 6;
+                break;    
+            case 'H':
+                newXIndex = 7;
+                break;                              
+        }
+
+        tiles[newXIndex][newYIndex].piece = tiles[originalXIndex][originalYIndex].piece;
+
+        tiles[newXIndex][newYIndex].piece.letter = newPieceLetter;
+        tiles[newXIndex][newYIndex].piece.number = newPieceNumber;
+        tiles[newXIndex][newYIndex].piece.type = newPieceType;
+
+        tiles[newXIndex][newYIndex].piece.chessPieceRectangle.x = tiles[newXIndex][newYIndex].x;
+        tiles[newXIndex][newYIndex].piece.chessPieceRectangle.x = tiles[newXIndex][newYIndex].y;
+
+        tiles[originalXIndex][originalYIndex].piece = null;
+
+        //if (tiles[originalXIndex][originalYIndex].piece.color == color && tiles[originalXIndex][originalYIndex].piece.type == originalPieceType) {
+            //tiles[newXIndex][newXIndex].piece = tiles[originalXIndex][originalYIndex].piece;
+            //tiles[originalXIndex][originalYIndex].piece = null;
+        //}
 
     }
 
