@@ -80,33 +80,33 @@ public class Board {
     public void createPieces() {
         // top row of pawns for white
         for(int x = 7; x>=0; x--) {
-            tiles[x][1].piece = new ChessPiece(PieceType.PAWN, "WHITE", tiles[x][1].tileRectangle.x, tiles[x][1].tileRectangle.y);
+            tiles[x][1].piece = new ChessPiece(PieceType.P, "WHITE", tiles[x][1].tileRectangle.x, tiles[x][1].tileRectangle.y);
         }
 
         // bottom row of pieces for white
-        tiles[0][0].piece = new ChessPiece(PieceType.ROOK, "WHITE", tiles[0][0].tileRectangle.x, tiles[0][0].tileRectangle.y);
-        tiles[1][0].piece = new ChessPiece(PieceType.KNIGHT, "WHITE", tiles[1][0].tileRectangle.x, tiles[1][0].tileRectangle.y);
-        tiles[2][0].piece = new ChessPiece(PieceType.BISHOP, "WHITE", tiles[2][0].tileRectangle.x, tiles[2][0].tileRectangle.y);
-        tiles[3][0].piece = new ChessPiece(PieceType.QUEEN, "WHITE", tiles[3][0].tileRectangle.x, tiles[3][0].tileRectangle.y);
-        tiles[4][0].piece = new ChessPiece(PieceType.KING, "WHITE", tiles[4][0].tileRectangle.x, tiles[4][0].tileRectangle.y);
-        tiles[5][0].piece = new ChessPiece(PieceType.BISHOP, "WHITE", tiles[5][0].tileRectangle.x, tiles[5][0].tileRectangle.y);
-        tiles[6][0].piece = new ChessPiece(PieceType.KNIGHT, "WHITE", tiles[6][0].tileRectangle.x, tiles[6][0].tileRectangle.y);
-        tiles[7][0].piece = new ChessPiece(PieceType.ROOK, "WHITE", tiles[7][0].tileRectangle.x, tiles[7][0].tileRectangle.y);
+        tiles[0][0].piece = new ChessPiece(PieceType.R, "WHITE", tiles[0][0].tileRectangle.x, tiles[0][0].tileRectangle.y);
+        tiles[1][0].piece = new ChessPiece(PieceType.N, "WHITE", tiles[1][0].tileRectangle.x, tiles[1][0].tileRectangle.y);
+        tiles[2][0].piece = new ChessPiece(PieceType.B, "WHITE", tiles[2][0].tileRectangle.x, tiles[2][0].tileRectangle.y);
+        tiles[3][0].piece = new ChessPiece(PieceType.Q, "WHITE", tiles[3][0].tileRectangle.x, tiles[3][0].tileRectangle.y);
+        tiles[4][0].piece = new ChessPiece(PieceType.K, "WHITE", tiles[4][0].tileRectangle.x, tiles[4][0].tileRectangle.y);
+        tiles[5][0].piece = new ChessPiece(PieceType.B, "WHITE", tiles[5][0].tileRectangle.x, tiles[5][0].tileRectangle.y);
+        tiles[6][0].piece = new ChessPiece(PieceType.N, "WHITE", tiles[6][0].tileRectangle.x, tiles[6][0].tileRectangle.y);
+        tiles[7][0].piece = new ChessPiece(PieceType.R, "WHITE", tiles[7][0].tileRectangle.x, tiles[7][0].tileRectangle.y);
 
         // top row of pawns for black
         for(int x = 7; x>=0; x--) {
-            tiles[x][6].piece = new ChessPiece(PieceType.PAWN, "BLACK", tiles[x][6].tileRectangle.x, tiles[x][6].tileRectangle.y);
+            tiles[x][6].piece = new ChessPiece(PieceType.P, "BLACK", tiles[x][6].tileRectangle.x, tiles[x][6].tileRectangle.y);
         }
 
         // bottom row of pieces for black
-        tiles[7][7].piece = new ChessPiece(PieceType.ROOK, "BLACK", tiles[7][7].tileRectangle.x, tiles[7][7].tileRectangle.y);
-        tiles[6][7].piece = new ChessPiece(PieceType.KNIGHT, "BLACK", tiles[6][7].tileRectangle.x, tiles[6][7].tileRectangle.y);
-        tiles[5][7].piece = new ChessPiece(PieceType.BISHOP, "BLACK", tiles[5][7].tileRectangle.x, tiles[5][7].tileRectangle.y);
-        tiles[4][7].piece = new ChessPiece(PieceType.QUEEN, "BLACK", tiles[4][7].tileRectangle.x, tiles[4][7].tileRectangle.y);
-        tiles[3][7].piece = new ChessPiece(PieceType.KING, "BLACK", tiles[3][7].tileRectangle.x, tiles[3][7].tileRectangle.y);
-        tiles[2][7].piece = new ChessPiece(PieceType.BISHOP, "BLACK", tiles[2][7].tileRectangle.x, tiles[2][7].tileRectangle.y);
-        tiles[1][7].piece = new ChessPiece(PieceType.KNIGHT, "BLACK", tiles[1][7].tileRectangle.x, tiles[1][7].tileRectangle.y);
-        tiles[0][7].piece = new ChessPiece(PieceType.ROOK, "BLACK", tiles[0][7].tileRectangle.x, tiles[0][7].tileRectangle.y);
+        tiles[7][7].piece = new ChessPiece(PieceType.R, "BLACK", tiles[7][7].tileRectangle.x, tiles[7][7].tileRectangle.y);
+        tiles[6][7].piece = new ChessPiece(PieceType.N, "BLACK", tiles[6][7].tileRectangle.x, tiles[6][7].tileRectangle.y);
+        tiles[5][7].piece = new ChessPiece(PieceType.B, "BLACK", tiles[5][7].tileRectangle.x, tiles[5][7].tileRectangle.y);
+        tiles[4][7].piece = new ChessPiece(PieceType.Q, "BLACK", tiles[4][7].tileRectangle.x, tiles[4][7].tileRectangle.y);
+        tiles[3][7].piece = new ChessPiece(PieceType.K, "BLACK", tiles[3][7].tileRectangle.x, tiles[3][7].tileRectangle.y);
+        tiles[2][7].piece = new ChessPiece(PieceType.B, "BLACK", tiles[2][7].tileRectangle.x, tiles[2][7].tileRectangle.y);
+        tiles[1][7].piece = new ChessPiece(PieceType.K, "BLACK", tiles[1][7].tileRectangle.x, tiles[1][7].tileRectangle.y);
+        tiles[0][7].piece = new ChessPiece(PieceType.R, "BLACK", tiles[0][7].tileRectangle.x, tiles[0][7].tileRectangle.y);
     }
 
     // move its own class? input.java?
@@ -165,6 +165,12 @@ public class Board {
                 }
             }
         }
+    }
+
+    public void decodeMove(String move) {
+        String color = move.substring(0, 5);
+        System.out.println(color);
+
     }
 
     public void update(ScalingViewport viewport) {

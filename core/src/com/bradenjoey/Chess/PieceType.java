@@ -1,10 +1,10 @@
 package com.bradenjoey.Chess;
 
 public enum PieceType {
-    PAWN,
-    BISHOP,
-    KNIGHT,
-    ROOK,
-    QUEEN,
-    KING
+    P,
+    B,
+    N, // knight
+    R,
+    Q,
+    K
 }

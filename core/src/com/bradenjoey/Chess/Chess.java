@@ -19,7 +19,8 @@ import com.bradenjoey.Networking.Client.Client;
 public class Chess extends ApplicationAdapter {
 
 	// menu 
-	private Menu menu; 
+	// the fucking yellow line was pissing me off thats why its now commented out
+	//private Menu menu;
 
 	Client chessClient;
 
@@ -79,9 +80,17 @@ public class Chess extends ApplicationAdapter {
 			//chessChat.update();
 		}
 
+		// sends new moves
 		if (gameStarted && chessBoard.latestMove != null) {
 			chessClient.sendMove(chessBoard.latestMove);
 			chessBoard.latestMove = null;
+		}
+
+		// gets new moves
+		if (gameStarted && chessClient.newMove != null) {
+			// todo a queue system becuase if the game is fast enough then missed moves could happen maybe
+			chessBoard.decodeMove(chessClient.newMove);
+			chessClient.newMove = null;
 		}
 
 		// sets the screen to the same color of the gray boarder color of the board.png

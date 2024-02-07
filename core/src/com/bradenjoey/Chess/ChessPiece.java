@@ -61,44 +61,44 @@ public class ChessPiece {
     public void changePiece() {
         if (color.equals("WHITE")) {
             switch (type) {
-                case PAWN:
+                case P:
                     chessPieceTexture = whitePawnTexture;
                     break;
-                case BISHOP:
+                case B:
                     chessPieceTexture = whiteBishopTexture;
                     break;
-                case KNIGHT:
+                case N:
                     chessPieceTexture = whiteKnightTexture;
                     break;
-                case ROOK:
+                case R:
                     chessPieceTexture = whiteRookTexture;
                     break;
-                case QUEEN:
+                case Q:
                     chessPieceTexture = whiteQueenTexture;
                     break;
-                case KING:
+                case K:
                     chessPieceTexture = whiteKingTexture;
                     break;
             }
         }
         if (color.equals("BLACK")) {
             switch (type) {
-                case PAWN:
+                case P:
                     chessPieceTexture = blackPawnTexture;
                     break;
-                case BISHOP:
+                case B:
                     chessPieceTexture = blackBishopTexture;
                     break;
-                case KNIGHT:
+                case N:
                     chessPieceTexture = blackKnightTexture;
                     break;
-                case ROOK:
+                case R:
                     chessPieceTexture = blackRookTexture;
                     break;
-                case QUEEN:
+                case Q:
                     chessPieceTexture = blackQueenTexture;
                     break;
-                case KING:
+                case K:
                     chessPieceTexture = blackKingTexture;
                     break;
             }

@@ -93,7 +93,7 @@ public class Server {
             for (int i = 0; i < clientHandlers.size(); i++) {
                 if (clientHandlers.get(i).socket.isClosed()) {
                     clientHandlers.get(i).exit();
-                    String message = clientHandlers.get(i).username + " Has Disconnected";
+                    //String message = clientHandlers.get(i).username + " Has Disconnected";
                     clientHandlers.remove(i);
                     connectedClients--;
                 }

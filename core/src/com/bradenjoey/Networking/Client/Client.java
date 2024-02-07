@@ -18,6 +18,8 @@ public class Client {
     private ObjectOutputStream packetOutputStream;
     private ObjectInputStream packetInputStream;
 
+    public String newMove;
+
     public Client() {
 
         // temp
@@ -79,7 +81,7 @@ public class Client {
                                 System.out.println(color);
                                 break;
                             case MOVE:
-                                System.out.println(packet.data);
+                                newMove = packet.data;
                                 break;
                         }
                     }
@@ -87,10 +89,6 @@ public class Client {
                 }
             }
         }).start();
-    }
-
-    private void decodeMove() {
-        // todo
     }
 
     private void sendInit() {
