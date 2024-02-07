@@ -59,7 +59,6 @@ public class Client {
         new Thread(new Runnable() {
             @Override
             public void run() {
-
                 while (socket.isConnected()) {
                     Packet packet = null;
 

@@ -14,8 +14,8 @@ public class Board {
     private Texture chessBoardTexture = new Texture(Gdx.files.internal("Board.png"));
 
     public String color;
-    private boolean createdTiles;
-    private boolean createdPieces;
+    private boolean createdTiles = false;
+    private boolean createdPieces = false;
     
     public Tile[][] tiles;
 
@@ -28,6 +28,7 @@ public class Board {
     private int selectedChessPieceTileYIndex;
 
     private boolean hasPiece = false;
+    private boolean outOfBoundsMove = false;
 
     private Sound moveSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/move.mp3"));
 
@@ -119,10 +120,11 @@ public class Board {
 
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 8; y++) {
-                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && !hasPiece && tiles[x][y].piece.color == color) {
+                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && !hasPiece) {
                         selectedChessPieceTileXIndex = x;
                         selectedChessPieceTileYIndex = y;
-                        
+    
+                        outOfBoundsMove = false;
                         hasPiece = true;
                     }
                 }
@@ -139,10 +141,11 @@ public class Board {
                     if (tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece != null) {
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.x = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].x;
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.y = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].y;
+
+                        outOfBoundsMove = true;
                     }
                     
-                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece == null && hasPiece) {
-
+                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece == null && hasPiece && !outOfBoundsMove) {
                         tiles[x][y].piece = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece;
 
                         latestMove = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.type + " " + String.valueOf(tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].letter) + tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].number + " -> " + tiles[x][y].piece.type + " " + String.valueOf(tiles[x][y].letter) + tiles[x][y].number;
@@ -157,10 +160,11 @@ public class Board {
                         tiles[x][y].piece.number = tiles[x][y].number;
 
                         moveSound.play();
+
+                        hasPiece = false;
                     }
                 }
             }
-            hasPiece = false;
         }
     }
 
@@ -177,15 +181,17 @@ public class Board {
                 createdPieces = true;
             }
 
-            // gets input
-            movePiece(viewport);
-
             // updates the tiles
             for (int x = 0; x < 8; x++) {
                 for (int y = 0; y < 8; y++) {
                     tiles[x][y].update();
                 }
-            }       
+            }
+
+            // gets input
+            if (createdTiles && createdPieces) {
+                movePiece(viewport);
+            }   
         } 
     }
 

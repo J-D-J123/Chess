@@ -76,9 +76,9 @@ public class Chess extends ApplicationAdapter {
 		// updating begins here            //
 		/////////////////////////////////////
 
-		chessBoard.update(viewport);
-
 		chessBoard.color = chessClient.color;
+
+		chessBoard.update(viewport);
 
 		/////////////////////////////////////
 		// real rendering begins here      //
