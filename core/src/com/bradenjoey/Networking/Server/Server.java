@@ -104,9 +104,9 @@ public class Server {
     public void newMoveChecker() {
         if (connectedClients > 0) {
             for (int i = 0; i < clientHandlers.size(); i++) {
-                if (clientHandlers.get(i).message != null && clientHandlers.get(i).socket.isConnected()) {
-                    moveHistory.add(clientHandlers.get(i).message);
-                    clientHandlers.get(i).message = null;
+                if (clientHandlers.get(i).move != null && clientHandlers.get(i).socket.isConnected()) {
+                    moveHistory.add(clientHandlers.get(i).move);
+                    clientHandlers.get(i).move = null;
                     broadcastMove(moveHistory.get(moveHistory.size() - 1), i);
                 }
             }

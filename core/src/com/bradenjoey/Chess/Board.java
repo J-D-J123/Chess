@@ -13,9 +13,7 @@ public class Board {
 
     private Texture chessBoardTexture = new Texture(Gdx.files.internal("Board.png"));
 
-    public String color;
-    private boolean createdTiles = false;
-    private boolean createdPieces = false;
+    private String color;
     
     public Tile[][] tiles;
 
@@ -27,13 +25,19 @@ public class Board {
     private int selectedChessPieceTileXIndex;
     private int selectedChessPieceTileYIndex;
 
-    private boolean hasPiece = false;
-    private boolean outOfBoundsMove = false;
+    private boolean hasPiece;
 
+    // need to get new sound becuase this one sounds very bad when using headphones
     private Sound moveSound = Gdx.audio.newSound(Gdx.files.internal("Sounds/move.mp3"));
 
-    public Board() {
+    public Board(String color) {
+        this.color = color;
+
         tiles = new Tile[8][8];
+
+        createTiles();
+
+        createPieces();
 
         mousePosWindow = new Vector3();
         mousePosWorld = new Vector2();
@@ -74,12 +78,12 @@ public class Board {
     }
 
     public void createPieces() {
-        // TOP ROW 
+        // top row of pawns for white
         for(int x = 7; x>=0; x--) {
             tiles[x][1].piece = new ChessPiece(PieceType.PAWN, "WHITE", tiles[x][1].tileRectangle.x, tiles[x][1].tileRectangle.y);
         }
 
-        // BOTTOM ROW
+        // bottom row of pieces for white
         tiles[0][0].piece = new ChessPiece(PieceType.ROOK, "WHITE", tiles[0][0].tileRectangle.x, tiles[0][0].tileRectangle.y);
         tiles[1][0].piece = new ChessPiece(PieceType.KNIGHT, "WHITE", tiles[1][0].tileRectangle.x, tiles[1][0].tileRectangle.y);
         tiles[2][0].piece = new ChessPiece(PieceType.BISHOP, "WHITE", tiles[2][0].tileRectangle.x, tiles[2][0].tileRectangle.y);
@@ -88,15 +92,13 @@ public class Board {
         tiles[5][0].piece = new ChessPiece(PieceType.BISHOP, "WHITE", tiles[5][0].tileRectangle.x, tiles[5][0].tileRectangle.y);
         tiles[6][0].piece = new ChessPiece(PieceType.KNIGHT, "WHITE", tiles[6][0].tileRectangle.x, tiles[6][0].tileRectangle.y);
         tiles[7][0].piece = new ChessPiece(PieceType.ROOK, "WHITE", tiles[7][0].tileRectangle.x, tiles[7][0].tileRectangle.y);
-    
-        // black pieces
 
-        // TOP ROW
+        // top row of pawns for black
         for(int x = 7; x>=0; x--) {
             tiles[x][6].piece = new ChessPiece(PieceType.PAWN, "BLACK", tiles[x][6].tileRectangle.x, tiles[x][6].tileRectangle.y);
         }
 
-        // BOTTOM ROW
+        // bottom row of pieces for black
         tiles[7][7].piece = new ChessPiece(PieceType.ROOK, "BLACK", tiles[7][7].tileRectangle.x, tiles[7][7].tileRectangle.y);
         tiles[6][7].piece = new ChessPiece(PieceType.KNIGHT, "BLACK", tiles[6][7].tileRectangle.x, tiles[6][7].tileRectangle.y);
         tiles[5][7].piece = new ChessPiece(PieceType.BISHOP, "BLACK", tiles[5][7].tileRectangle.x, tiles[5][7].tileRectangle.y);
@@ -123,8 +125,7 @@ public class Board {
                     if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece != null && !hasPiece) {
                         selectedChessPieceTileXIndex = x;
                         selectedChessPieceTileYIndex = y;
-    
-                        outOfBoundsMove = false;
+
                         hasPiece = true;
                     }
                 }
@@ -141,11 +142,9 @@ public class Board {
                     if (tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece != null) {
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.x = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].x;
                         tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.chessPieceRectangle.y = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].y;
-
-                        outOfBoundsMove = true;
                     }
                     
-                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece == null && hasPiece && !outOfBoundsMove) {
+                    if (tiles[x][y].tileRectangle.contains(mousePosWorld) && tiles[x][y].piece == null && hasPiece) {
                         tiles[x][y].piece = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece;
 
                         latestMove = tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].piece.type + " " + String.valueOf(tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].letter) + tiles[selectedChessPieceTileXIndex][selectedChessPieceTileYIndex].number + " -> " + tiles[x][y].piece.type + " " + String.valueOf(tiles[x][y].letter) + tiles[x][y].number;
@@ -169,30 +168,13 @@ public class Board {
     }
 
     public void update(ScalingViewport viewport) {
-        if (color != null) {
-
-            if (!createdTiles) {
-                createTiles();
-                createdTiles = true;
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                tiles[x][y].update();
             }
+        }
 
-            if (!createdPieces) {
-                createPieces();
-                createdPieces = true;
-            }
-
-            // updates the tiles
-            for (int x = 0; x < 8; x++) {
-                for (int y = 0; y < 8; y++) {
-                    tiles[x][y].update();
-                }
-            }
-
-            // gets input
-            if (createdTiles && createdPieces) {
-                movePiece(viewport);
-            }   
-        } 
+        movePiece(viewport);
     }
 
     public void render(SpriteBatch batch, ScalingViewport viewport) {
@@ -201,11 +183,9 @@ public class Board {
             batch.draw(chessBoardTexture, -viewport.getWorldWidth() / 2, -viewport.getWorldHeight() / 2, viewport.getWorldHeight(), viewport.getWorldHeight());
         batch.end();
 
-        if (createdTiles && createdPieces) {
-            for (int x = 0; x < 8; x++) {
-                for (int y = 0; y < 8; y++) {
-                    tiles[x][y].render(batch);
-                }
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                tiles[x][y].render(batch);
             }
         }
     }

@@ -89,6 +89,10 @@ public class Client {
         }).start();
     }
 
+    private void decodeMove() {
+        // todo
+    }
+
     private void sendInit() {
         Packet initPacket = new Packet();
         initPacket.type = PacketType.INIT;
@@ -98,12 +102,13 @@ public class Client {
     }
 
     public void sendMove(String move) {
-        Packet messagePacket = new Packet();
-        messagePacket.type = PacketType.MOVE;
-        messagePacket.sender = username;
-        messagePacket.data = move;
+        Packet movePacket = new Packet();
+        movePacket.type = PacketType.MOVE;
+        movePacket.sender = username;
+        movePacket.color = color;
+        movePacket.data = move;
 
-        sendPacket(messagePacket);
+        sendPacket(movePacket);
     }
 
     private void sendPacket(Packet packet) {

@@ -21,6 +21,14 @@ public class Chess extends ApplicationAdapter {
 	// menu 
 	private Menu menu; 
 
+	Client chessClient;
+
+	Board chessBoard;
+
+	boolean gameStarted;
+
+	Chat chessChat;
+
 	// sprite batch (just one)
 	SpriteBatch batch;
 
@@ -28,15 +36,8 @@ public class Chess extends ApplicationAdapter {
 	OrthographicCamera camera;
 	ScalingViewport viewport;
 
-	// chat related things and such
-	ShapeRenderer chatBox;
-
 	// timer related things and such
 	ShapeRenderer timerBox;
-
-	Board chessBoard;
-
-	Client chessClient;
 
 	// note from braden - there is a bitmap font data type in libgdx
 	public Object font;
@@ -45,19 +46,14 @@ public class Chess extends ApplicationAdapter {
 	@Override
 	public void create () {
 		chessClient = new Client();
-
 		// temp, when you get done the menu, ill change this
 		chessClient.connect("localhost", 6678);
-
-		chessBoard = new Board();
 
 		batch = new SpriteBatch();
 
 		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		viewport = new ScalingViewport(Scaling.fit, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), camera);
 
-		// move lastMoveRenderer to new class
-		chatBox = new ShapeRenderer();
 		// timerBox should prolly be in the board class maybe?
 		timerBox = new ShapeRenderer();
 
@@ -72,17 +68,21 @@ public class Chess extends ApplicationAdapter {
 	@Override
 	public void render () {
 
-		/////////////////////////////////////
-		// updating begins here            //
-		/////////////////////////////////////
+		if (chessClient.color != null && !gameStarted) {
+			chessBoard = new Board(chessClient.color);
+			chessChat = new Chat();
+			gameStarted = true;
+		}
 
-		chessBoard.color = chessClient.color;
+		if (gameStarted) {
+			chessBoard.update(viewport);
+			//chessChat.update();
+		}
 
-		chessBoard.update(viewport);
-
-		/////////////////////////////////////
-		// real rendering begins here      //
-		/////////////////////////////////////
+		if (gameStarted && chessBoard.latestMove != null) {
+			chessClient.sendMove(chessBoard.latestMove);
+			chessBoard.latestMove = null;
+		}
 
 		// sets the screen to the same color of the gray boarder color of the board.png
 		ScreenUtils.clear(0.349019608f, 0.349019608f, 0.349019608f, 1); // ugly number
@@ -90,21 +90,18 @@ public class Chess extends ApplicationAdapter {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 
-		// chat, will be moved to chat class
+		// should the timer be part of the board class?
 		batch.begin();
-			chatBox.begin(ShapeType.Filled);
-				chatBox.rect(600, 19.5f, 280.5f, 560); // oh god
-				chatBox.setColor(0.549019608f, 0.549019608f, 0.549019608f, 1); // ugly numbers again
-			chatBox.end();
-
 			timerBox.begin(ShapeType.Filled);
 				timerBox.rect(600, 530, 280.5f, 50); // oh god
 				timerBox.setColor(0.749019608f, 0.749019608f, 0.749019608f, 1); // even more ugly numbers
 			timerBox.end();
 		batch.end();
 
-		// renders chess board
-		chessBoard.render(batch, viewport);
+		if (gameStarted) {
+			chessBoard.render(batch, viewport);
+			chessChat.render(batch);
+		}
 
 	}
 	
@@ -113,7 +110,6 @@ public class Chess extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		timerBox.dispose();
-		chatBox.dispose();
 		// viewport doesnt need to be disposed
 		// camera doesnt need to be disposed
 		batch.dispose();

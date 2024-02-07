@@ -22,7 +22,7 @@ public class ClientHandler {
     public String username;
     public String color;
 
-    public String message;
+    public String move;
 
     public ClientHandler(ServerSocket serverSocket) {
         acceptClient(serverSocket);
@@ -79,7 +79,9 @@ public class ClientHandler {
                                 isInitalized = true;
                                 break;
                             case MOVE:
-                                // move packet
+                                if (validateMove(packet.data)) {
+                                    move = packet.color + " " + packet.data;
+                                }
                                 break;
                         }
                     }
@@ -89,11 +91,16 @@ public class ClientHandler {
         }).start();
     }
 
+    public boolean validateMove(String move) {
+        // temp becuase we dont have a validate move thing
+        return true;
+    }
+
     public void sendMove(String move) {
         Packet movePacket = new Packet();
         movePacket.type = PacketType.MOVE;
         movePacket.sender = "SERVER";
-        movePacket.data = message;
+        movePacket.data = move;
 
         sendPacket(movePacket);
     }

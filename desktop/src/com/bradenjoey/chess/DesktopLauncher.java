@@ -9,7 +9,7 @@ import com.bradenjoey.Chess.Chess;
 public class DesktopLauncher {
 
 	// version # --- save for later 
-	private static String version = " ";  
+	private static String version = "0.0.0";  
 
 	public static void main (String[] arg) {
 
