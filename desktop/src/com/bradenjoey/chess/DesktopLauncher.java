@@ -14,7 +14,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
-		// Chess chessGame = new Chess(); `
+		// Chess chessGame = new Chess();
 
 		config.setForegroundFPS(240);
 		config.setTitle("Chess" + version);
