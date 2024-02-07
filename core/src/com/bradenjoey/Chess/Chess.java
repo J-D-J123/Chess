@@ -99,15 +99,15 @@ public class Chess extends ApplicationAdapter {
 		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 
-		// should the timer be part of the board class?
-		batch.begin();
-			timerBox.begin(ShapeType.Filled);
-				timerBox.rect(600, 530, 280.5f, 50); // oh god
-				timerBox.setColor(0.749019608f, 0.749019608f, 0.749019608f, 1); // even more ugly numbers
-			timerBox.end();
-		batch.end();
+		if (gameStarted) {		
+			// should the timer be part of the board class?
+			batch.begin();
+				timerBox.begin(ShapeType.Filled);
+					timerBox.rect(600, 530, 280.5f, 50); // oh god
+					timerBox.setColor(0.749019608f, 0.749019608f, 0.749019608f, 1); // even more ugly numbers
+				timerBox.end();
+			batch.end();
 
-		if (gameStarted) {
 			chessBoard.render(batch, viewport);
 			chessChat.render(batch);
 		}

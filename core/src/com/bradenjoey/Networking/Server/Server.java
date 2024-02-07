@@ -69,26 +69,29 @@ public class Server {
         while (!serverSocket.isClosed()) {
             disconnectChecker();
             newMoveChecker();
-            if (connectedClients == 2) {
-                if (clientHandlers.get(0).socket.isConnected() && clientHandlers.get(1).socket.isConnected() && !isReady) {
-                    isReady = true;
-    
-                    if (Math.random() <= .5) {
-                        clientHandlers.get(0).color = "WHITE";
-                        clientHandlers.get(1).color = "BLACK";
-                    } else {
-                        clientHandlers.get(0).color = "BLACK";
-                        clientHandlers.get(1).color = "WHITE";
-                    }
-
-                    clientHandlers.get(0).sendInit();
-                    clientHandlers.get(1).sendInit();
+            if (connectedClients == 2 && !isReady) {
+                if (Math.random() <= .5) {
+                    clientHandlers.get(0).color = "WHITE";
+                    clientHandlers.get(1).color = "BLACK";
+                } else {
+                    clientHandlers.get(0).color = "BLACK";
+                    clientHandlers.get(1).color = "WHITE";
                 }
+
+                clientHandlers.get(0).sendInit();
+                clientHandlers.get(1).sendInit();
+                
+                isReady = true;
             }
         }
     }
 
     public void disconnectChecker() {
+
+        if (connectedClients != 2 && isReady) {
+            isReady = false;
+        }
+
         if (connectedClients > 0) {
             for (int i = 0; i < clientHandlers.size(); i++) {
                 if (clientHandlers.get(i).socket.isClosed()) {

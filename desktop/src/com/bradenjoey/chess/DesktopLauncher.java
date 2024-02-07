@@ -16,7 +16,7 @@ public class DesktopLauncher {
 		// Chess chessGame = new Chess();
 
 		config.setForegroundFPS(240);
-		config.setTitle("Chess" + version);
+		config.setTitle("Chess" + " " + version);
 		config.setWindowedMode(900, 600);
 		config.setResizable(true); // this is going to be a pain in the ass
 

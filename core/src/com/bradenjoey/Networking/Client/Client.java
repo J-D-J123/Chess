@@ -83,6 +83,12 @@ public class Client {
                             case MOVE:
                                 newMove = packet.data;
                                 break;
+                            case MESSAGE:
+                                // do stuff
+                                break;
+                            case DISCONNECT:
+                                // do stuff
+                                break;
                         }
                     }
 

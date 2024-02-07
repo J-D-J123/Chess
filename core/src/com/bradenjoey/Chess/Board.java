@@ -105,7 +105,7 @@ public class Board {
         tiles[4][7].piece = new ChessPiece(PieceType.Q, "BLACK", tiles[4][7].tileRectangle.x, tiles[4][7].tileRectangle.y);
         tiles[3][7].piece = new ChessPiece(PieceType.K, "BLACK", tiles[3][7].tileRectangle.x, tiles[3][7].tileRectangle.y);
         tiles[2][7].piece = new ChessPiece(PieceType.B, "BLACK", tiles[2][7].tileRectangle.x, tiles[2][7].tileRectangle.y);
-        tiles[1][7].piece = new ChessPiece(PieceType.K, "BLACK", tiles[1][7].tileRectangle.x, tiles[1][7].tileRectangle.y);
+        tiles[1][7].piece = new ChessPiece(PieceType.N, "BLACK", tiles[1][7].tileRectangle.x, tiles[1][7].tileRectangle.y);
         tiles[0][7].piece = new ChessPiece(PieceType.R, "BLACK", tiles[0][7].tileRectangle.x, tiles[0][7].tileRectangle.y);
     }
 
@@ -264,6 +264,7 @@ public class Board {
                 break;                              
         }
 
+        // maybe create an extra check to make sure the original's color and piece type match
         tiles[newXIndex][newYIndex].piece = tiles[originalXIndex][originalYIndex].piece;
 
         tiles[newXIndex][newYIndex].piece.letter = newPieceLetter;
@@ -275,10 +276,7 @@ public class Board {
 
         tiles[originalXIndex][originalYIndex].piece = null;
 
-        //if (tiles[originalXIndex][originalYIndex].piece.color == color && tiles[originalXIndex][originalYIndex].piece.type == originalPieceType) {
-            //tiles[newXIndex][newXIndex].piece = tiles[originalXIndex][originalYIndex].piece;
-            //tiles[originalXIndex][originalYIndex].piece = null;
-        //}
+        moveSound.play();
 
     }
 
