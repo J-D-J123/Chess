@@ -11,6 +11,8 @@ import com.bradenjoey.Networking.Packet.PacketType;
 
 public class Client {
 
+    private boolean isListening;
+
     public Socket socket;
     private String username;
     public String color;
@@ -42,6 +44,7 @@ public class Client {
 
         initStreams();
     
+        isListening = true;
         listenForPackets();
 
         sendInit();
@@ -61,7 +64,7 @@ public class Client {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                while (socket.isConnected()) {
+                while (socket.isConnected() && isListening) {
                     Packet packet = null;
 
                     try {
@@ -122,6 +125,10 @@ public class Client {
             System.out.println("Error Occured While Trying to Send Packet");
             System.out.println(i);
         }
+    }
+
+    public void exit() {
+        isListening = false;
     }
 
 }
