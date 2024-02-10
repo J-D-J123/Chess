@@ -105,6 +105,15 @@ public class ClientHandler {
         sendPacket(movePacket);
     }
 
+    public void sendPlayerLeft() {
+        Packet leftPacket = new Packet();
+        leftPacket.type = PacketType.DISCONNECT;
+        leftPacket.sender = "SERVER";
+        leftPacket.color = color;
+
+        sendPacket(leftPacket);
+    }
+
     public void sendInit() {
         Packet initPacket = new Packet();
         initPacket.type = PacketType.INIT;

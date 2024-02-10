@@ -67,7 +67,7 @@ public class Server {
 
     public void serverLoop() {
         while (!serverSocket.isClosed()) {
-            disconnectChecker();
+            //disconnectChecker();
             newMoveChecker();
             if (connectedClients == 2 && !isReady) {
                 if (Math.random() <= .5) {
@@ -105,7 +105,7 @@ public class Server {
     }
 
     public void newMoveChecker() {
-        if (connectedClients > 0) {
+        if (connectedClients == 2) {
             for (int i = 0; i < clientHandlers.size(); i++) {
                 if (clientHandlers.get(i).move != null && clientHandlers.get(i).socket.isConnected()) {
                     moveHistory.add(clientHandlers.get(i).move);
