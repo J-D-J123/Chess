@@ -166,6 +166,31 @@ public class Board {
         }
     }
 
+    public void validateBoard() {
+        for (int x = 0; x < 8; x++) {
+            for (int y = 0; y < 8; y++) {
+                if (tiles[x][y].piece != null) {
+                    if ((tiles[x][y].piece.type == PieceType.P && tiles[x][y].piece.moves < 1))
+                    {
+                        tiles[x][y].piece.possibleMoves.add(tiles[x][y+1]);
+                        tiles[x][y].piece.possibleMoves.add(tiles[x][y+2]);
+    
+                        System.out.println(tiles[x][y].piece.type);
+                        for (int i = 0; i < tiles[x][y].piece.possibleMoves.size(); i++) {
+                            System.out.println(tiles[x][y].piece.possibleMoves.get(i).letter);
+                            System.out.print(tiles[x][y].piece.possibleMoves.get(i).number);
+                        }
+                    }
+                    if ((tiles[x][y].piece.type == PieceType.P && tiles[x][y].piece.moves < 1) && (!tiles[x+1][y+1].piece.color.equals("BLACK") || !tiles[x-1][y+1].piece.color.equals("BLACK"))) {
+                        if (tiles[x][y+1].piece == null) {
+                            tiles[x][y].piece.possibleMoves.add(tiles[x][y+1]);                        
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void decodeMove(String move) {
 
         System.out.println(move);

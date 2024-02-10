@@ -1,12 +1,13 @@
 package com.bradenjoey.Chess;
 
 // Chess.java
-// Authors: Braden S
-// Last Modified: Jan. 29, 2024
+// Authors: Braden S and Joey J
+// Last Modified: Feb. 9, 2024
 // Created using Java 21 and libGDX
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -84,6 +85,7 @@ public class Chess extends ApplicationAdapter {
 		if (gameStarted && chessBoard.latestMove != null) {
 			chessClient.sendMove(chessBoard.latestMove);
 			chessBoard.latestMove = null;
+			chessBoard.validateBoard();
 		}
 
 		// gets new moves
@@ -118,6 +120,7 @@ public class Chess extends ApplicationAdapter {
 	// clean up clean up
 	@Override
 	public void dispose () {
+		chessClient.exit();
 		timerBox.dispose();
 		// viewport doesnt need to be disposed
 		// camera doesnt need to be disposed

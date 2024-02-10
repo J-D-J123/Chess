@@ -1,5 +1,7 @@
 package com.bradenjoey.Chess;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -32,9 +34,15 @@ public class ChessPiece {
 
     public Rectangle chessPieceRectangle;
 
+    public int moves; // how many times this chess piece has moved
+
+    public ArrayList<Tile> possibleMoves;
+
     public ChessPiece(PieceType type, String color, float x, float y) {
         this.type = type;
         this.color = color;
+
+        possibleMoves = new ArrayList<>();
 
         // this makes the textures look nice and smooth, before it looked like shit so
         whitePawnTexture.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -58,7 +66,7 @@ public class ChessPiece {
 
     // used for piece promotions and when creating pieces
     // joey pls come up with a better function name
-    public void changePiece() {
+    private void changePiece() {
         if (color.equals("WHITE")) {
             switch (type) {
                 case P:
